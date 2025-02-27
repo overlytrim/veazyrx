@@ -98,6 +98,47 @@ nav {
     }
 }
 
+/* Responsive Styles for Subpages */
+@media (max-width: 768px) {
+    .container {
+        padding-top: 4rem;
+    }
+    
+    .glitch {
+        font-size: 2rem;
+    }
+    
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .glass-card {
+        padding: 1.5rem;
+    }
+    
+    #cursor, #cursor-blur {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 4rem 1rem 1rem;
+    }
+    
+    .glitch {
+        font-size: 1.5rem;
+    }
+    
+    .review-content {
+        padding: 1rem;
+    }
+    
+    .ratings-box {
+        padding: 1rem;
+    }
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
