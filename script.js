@@ -17,8 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Initialize Three.js
-    initThreeJS();
+    // Initialize Three.js if canvas exists
+    if (document.getElementById('universe')) {
+        initThreeJS();
+    }
 
     // Initialize cursor
     initCursor();
@@ -26,14 +28,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize hover effects
     initHoverEffects();
 
-    // Initialize card effects
-    init3DCardEffect();
+    // Initialize card effects for any page with glass cards
+    if (document.querySelector('.glass-card')) {
+        init3DCardEffect();
+    }
 
-    // Initialize quotes
-    initializeQuotes();
+    // Initialize quotes if they exist on the page
+    if (document.querySelector('.quote-text')) {
+        initializeQuotes();
+    }
 });
 
-let scene, camera, renderer, points;
+// Global variables
+let scene = null, camera = null, renderer = null, points = null;
 let comets = [];
 let supernovas = [];
 let mouseX = 0, mouseY = 0;
@@ -46,17 +53,27 @@ function initThreeJS() {
     // Skip if already initialized
     if (initialized) return;
 
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // Create scene only if it doesn't exist
+    if (!scene) {
+        scene = new THREE.Scene();
+    }
+    
+    // Create camera only if it doesn't exist
+    if (!camera) {
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 1000;
+    }
 
-    renderer = new THREE.WebGLRenderer({ 
-        canvas: canvas, 
-        alpha: true,
-        antialias: true 
-    });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    camera.position.z = 1000;
+    // Create renderer only if it doesn't exist
+    if (!renderer) {
+        renderer = new THREE.WebGLRenderer({ 
+            canvas: canvas, 
+            alpha: true,
+            antialias: true 
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+    }
 
     // Add stars
     const geometry = new THREE.BufferGeometry();
@@ -96,6 +113,7 @@ function initThreeJS() {
     canvas.addEventListener('click', createSupernovaOnClick);
 
     // Initialize comets
+    comets = []; // Clear existing comets to prevent duplicates
     for (let i = 0; i < 5; i++) {
         comets.push(new Comet());
     }
@@ -131,9 +149,14 @@ function initHoverEffects() {
                 const soundId = `hover-sound-${Math.floor(Math.random() * 3) + 1}`;
                 const sound = document.getElementById(soundId);
                 if (sound) {
-                    sound.currentTime = 0;
-                    sound.volume = 0.2;
-                    sound.play().catch(e => console.log("Audio error:", e));
+                    // Reset time and volume
+                    try {
+                        sound.currentTime = 0;
+                        sound.volume = 0.2;
+                        sound.play().catch(e => console.log("Audio play error:", e));
+                    } catch (e) {
+                        console.log("Audio property error:", e);
+                    }
                 }
             } catch (err) {
                 console.log("Sound effect error:", err);
