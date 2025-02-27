@@ -1,6 +1,8 @@
 // Three.js setup - only initialize if not already initialized
 let scene, camera, renderer;
 
+let scene, camera, renderer;
+
 function initThreeJS() {
     if (!scene) {
         scene = new THREE.Scene();
@@ -19,7 +21,11 @@ function initThreeJS() {
     }
 }
 
-initThreeJS();
+// Only initialize if the universe canvas exists
+if (document.getElementById('universe')) {
+    initThreeJS();
+}
+
 
 // Initialize geometry
 const geometry = new THREE.BufferGeometry();
@@ -212,8 +218,12 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-// Initialize
-animate();
+// Only run animation if universe canvas exists
+const universeCanvas = document.getElementById('universe');
+if (universeCanvas && scene && camera && renderer) {
+    animate();
+}
+
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
