@@ -550,5 +550,3 @@ document.querySelectorAll('.glass-card').forEach(card => {
 .glass-card.rodeo-card:hover img[src="rodeo-rc.jpg"] {
     transform: scale(1.05);
 }
-    });
-});
