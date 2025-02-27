@@ -1,24 +1,56 @@
+// Initialize Three.js scene
+document.addEventListener('DOMContentLoaded', function() {
+    // Create missing audio elements if they don't exist
+    const audioIds = ['hover-sound-1', 'hover-sound-2', 'hover-sound-3'];
+    audioIds.forEach(id => {
+        if (!document.getElementById(id)) {
+            const audio = document.createElement('audio');
+            audio.id = id;
+            audio.preload = 'auto';
 
-// Three.js setup
+            const source = document.createElement('source');
+            source.src = `https://assets.mixkit.co/active_storage/sfx/${id.split('-')[2]}/25${id.split('-')[2]}-preview.mp3`;
+            source.type = 'audio/mpeg';
+
+            audio.appendChild(source);
+            document.body.appendChild(audio);
+        }
+    });
+
+    // Initialize Three.js
+    initThreeJS();
+
+    // Initialize cursor
+    initCursor();
+
+    // Initialize hover effects
+    initHoverEffects();
+
+    // Initialize card effects
+    init3DCardEffect();
+
+    // Initialize quotes
+    initializeQuotes();
+});
+
 let scene, camera, renderer, points;
-let initialized = false;
 let comets = [];
-const supernovas = [];
-
-// Track mouse position
+let supernovas = [];
 let mouseX = 0, mouseY = 0;
+let initialized = false;
 
 function initThreeJS() {
+    const canvas = document.getElementById('universe');
+    if (!canvas) return;
+
+    // Skip if already initialized
     if (initialized) return;
-    
+
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const canvas = document.getElementById('universe');
-    
-    if (!canvas) return; // Exit if canvas doesn't exist
-    
+
     renderer = new THREE.WebGLRenderer({ 
-        canvas: canvas,
+        canvas: canvas, 
         alpha: true,
         antialias: true 
     });
@@ -26,10 +58,11 @@ function initThreeJS() {
     renderer.setPixelRatio(window.devicePixelRatio);
     camera.position.z = 1000;
 
-    // Initialize geometry
+    // Add stars
     const geometry = new THREE.BufferGeometry();
     const vertices = [];
     const colors = [];
+    const sizes = [];
 
     for (let i = 0; i < 15000; i++) {
         vertices.push(
@@ -37,13 +70,17 @@ function initThreeJS() {
             Math.random() * 2000 - 1000,
             Math.random() * 2000 - 1000
         );
+
         const color = new THREE.Color();
         color.setHSL(Math.random(), 0.8, 0.8);
         colors.push(color.r, color.g, color.b);
+
+        sizes.push(Math.random() * 2);
     }
 
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
     geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
 
     const material = new THREE.PointsMaterial({
         size: 1,
@@ -54,17 +91,57 @@ function initThreeJS() {
 
     points = new THREE.Points(geometry, material);
     scene.add(points);
-    
+
+    // Add event for creating supernovas on click
+    canvas.addEventListener('click', createSupernovaOnClick);
+
     // Initialize comets
-    initializeComets();
-    
-    // Start animation
-    animate();
-    
+    for (let i = 0; i < 5; i++) {
+        comets.push(new Comet());
+    }
+
     initialized = true;
+
+    // Start animation loop
+    animate();
 }
 
-// Comet effect
+function initCursor() {
+    const cursor = document.getElementById('cursor');
+    const cursorBlur = document.getElementById('cursor-blur');
+
+    if (cursor && cursorBlur) {
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            cursorBlur.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+
+            // Update for Three.js parallax
+            mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
+            mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
+        });
+    }
+}
+
+function initHoverEffects() {
+    const elements = document.querySelectorAll('.nav-links a, .social-button, .glass-card, .button');
+
+    elements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            try {
+                const soundId = `hover-sound-${Math.floor(Math.random() * 3) + 1}`;
+                const sound = document.getElementById(soundId);
+                if (sound) {
+                    sound.currentTime = 0;
+                    sound.volume = 0.2;
+                    sound.play().catch(e => console.log("Audio error:", e));
+                }
+            } catch (err) {
+                console.log("Sound effect error:", err);
+            }
+        });
+    });
+}
+
 class Comet {
     constructor() {
         this.position = new THREE.Vector3(
@@ -113,8 +190,21 @@ class Comet {
     }
 }
 
-function initializeComets() {
-    comets = Array(5).fill(null).map(() => new Comet());
+function createSupernovaOnClick(event) {
+    if (!initialized || !renderer) return;
+
+    const rect = renderer.domElement.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+    const vector = new THREE.Vector3(x * 1000, y * 1000, 0);
+    const supernova = createSupernova(vector.x, vector.y, vector.z);
+
+    supernovas.push({ 
+        ...supernova, 
+        age: 0,
+        maxAge: 100 
+    });
 }
 
 function createSupernova(x, y, z) {
@@ -195,84 +285,70 @@ function updateSupernovas() {
 }
 
 function animate() {
+    if (!initialized) return;
+
     requestAnimationFrame(animate);
-    
-    if (!initialized || !points) return;
-    
+
+    // Update comets
     comets.forEach(comet => comet.update());
 
-    points.rotation.x += 0.0002;
-    points.rotation.y += 0.0003;
+    // Rotate points based on mouse position
+    if (points) {
+        points.rotation.x += 0.0002;
+        points.rotation.y += 0.0003;
+        points.rotation.x += (mouseY - points.rotation.x) * 0.05;
+        points.rotation.y += (mouseX - points.rotation.y) * 0.05;
 
-    points.rotation.x += (mouseY - points.rotation.x) * 0.05;
-    points.rotation.y += (mouseX - points.rotation.y) * 0.05;
+        // Pulsing effect
+        const time = Date.now() * 0.001;
+        points.scale.x = points.scale.y = points.scale.z = Math.sin(time) * 0.15 + 1;
 
-    const time = Date.now() * 0.001;
-    points.scale.x = points.scale.y = points.scale.z = Math.sin(time) * 0.15 + 1;
-
-    const positions = points.geometry.attributes.position.array;
-    const colors = points.geometry.attributes.color.array;
-    for(let i = 0; i < colors.length; i += 3) {
-        colors[i] = Math.sin(time + positions[i] * 0.001) * 0.5 + 0.5;
-        colors[i + 1] = Math.cos(time + positions[i + 1] * 0.001) * 0.5 + 0.5;
-        colors[i + 2] = Math.sin(time + positions[i + 2] * 0.002) * 0.5 + 0.5;
-    }
-    points.geometry.attributes.color.needsUpdate = true;
-
-    updateSupernovas();
-    renderer.render(scene, camera);
-}
-
-// Safely play sound function
-function safePlaySound(element) {
-    if (element) {
-        element.currentTime = 0;
-        element.volume = 0.2;
-        try {
-            const playPromise = element.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.log("Playback prevented:", error);
-                });
-            }
-        } catch (e) {
-            console.log("Error playing sound:", e);
+        // Color shifting effect
+        const positions = points.geometry.attributes.position.array;
+        const colors = points.geometry.attributes.color.array;
+        for(let i = 0; i < colors.length; i += 3) {
+            colors[i] = Math.sin(time + positions[i] * 0.001) * 0.5 + 0.5;
+            colors[i + 1] = Math.cos(time + positions[i + 1] * 0.001) * 0.5 + 0.5;
+            colors[i + 2] = Math.sin(time + positions[i + 2] * 0.002) * 0.5 + 0.5;
         }
+        points.geometry.attributes.color.needsUpdate = true;
+    }
+
+    // Update supernovas
+    updateSupernovas();
+
+    // Render the scene
+    if (renderer && scene && camera) {
+        renderer.render(scene, camera);
     }
 }
 
-// Play random sound with error handling
-function playRandomSound() {
-    const sounds = [];
-    for (let i = 1; i <= 3; i++) {
-        const sound = document.getElementById(`hover-sound-${i}`);
-        if (sound) sounds.push(sound);
-    }
-    
-    if (sounds.length > 0) {
-        const sound = sounds[Math.floor(Math.random() * sounds.length)];
-        safePlaySound(sound);
-    }
-}
+// Handle window resize
+window.addEventListener('resize', () => {
+    if (!initialized) return;
 
-// Initialize 3D card effect
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// 3D card effect for glass cards
 function init3DCardEffect() {
     const cards = document.querySelectorAll('.glass-card');
-    if (!cards || cards.length === 0) return;
-    
+
     cards.forEach(card => {
-        // Skip the rodeo-card as it has its own specific styling
+        // Skip rodeo card if it has its own styling
         if (card.classList.contains('rodeo-card')) return;
-        
+
         let bounds = card.getBoundingClientRect();
         let mouseLeaveDelay;
 
-        const mouseEnter = (e) => {
+        card.addEventListener('mouseenter', () => {
             clearTimeout(mouseLeaveDelay);
             bounds = card.getBoundingClientRect();
-        };
+        });
 
-        const mouseMove = (e) => {
+        card.addEventListener('mousemove', (e) => {
             const mouseX = e.clientX;
             const mouseY = e.clientY;
             const leftX = mouseX - bounds.x;
@@ -294,9 +370,9 @@ function init3DCardEffect() {
                 )
             `;
             card.style.filter = `brightness(1.1) contrast(1.1)`;
-        };
+        });
 
-        const mouseLeave = () => {
+        card.addEventListener('mouseleave', () => {
             mouseLeaveDelay = setTimeout(() => {
                 card.style.transform = `
                     perspective(1000px)
@@ -305,11 +381,7 @@ function init3DCardEffect() {
                 `;
                 card.style.filter = 'brightness(1) contrast(1)';
             }, 100);
-        };
-
-        card.addEventListener('mouseenter', mouseEnter);
-        card.addEventListener('mousemove', mouseMove);
-        card.addEventListener('mouseleave', mouseLeave);
+        });
     });
 }
 
@@ -318,14 +390,14 @@ const quotes = [
     { text: "Music expresses that which cannot be put into words and that which cannot remain silent.", author: "Victor Hugo" },
     { text: "One good thing about music, when it hits you, you feel no pain.", author: "Bob Marley" },
     { text: "Music is the universal language of mankind.", author: "Henry Wadsworth Longfellow" },
-    { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
-    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" }
+    { text: "Where words fail, music speaks.", author: "Hans Christian Andersen" },
+    { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" }
 ];
 
 function getNewQuote() {
     const quoteTexts = document.querySelectorAll('.quote-text');
     if (!quoteTexts || quoteTexts.length === 0) return;
-    
+
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
     const quoteContent = `
         <div class="quote-content">${randomQuote.text.split('').map(char => 
@@ -334,189 +406,34 @@ function getNewQuote() {
         <div class="quote-author">- ${randomQuote.author}</div>
     `;
     quoteTexts.forEach(quoteText => {
-        if (quoteText) {
-            quoteText.innerHTML = quoteContent;
-        }
+        quoteText.innerHTML = quoteContent;
     });
 }
 
 function initializeQuotes() {
-    const quoteTexts = document.querySelectorAll('.quote-text');
-    if (quoteTexts && quoteTexts.length > 0) {
+    const quoteContainers = document.querySelectorAll('.quote-text');
+    if (quoteContainers && quoteContainers.length > 0) {
         getNewQuote();
     }
 }
 
-// Show content function
+// Show content function for the main page
 function showContent(contentType) {
     const allContents = document.querySelectorAll('.content-details');
-    if (!allContents || allContents.length === 0) return;
-    
     allContents.forEach(content => {
-        if (content) {
-            content.style.opacity = '0';
-            setTimeout(() => {
-                content.style.display = 'none';
-            }, 300);
-        }
+        content.style.display = 'none';
     });
 
     const selectedContent = document.getElementById(`content-${contentType}`);
     if (selectedContent) {
         selectedContent.style.display = 'block';
-        selectedContent.offsetHeight; // Force reflow
-        selectedContent.style.opacity = '1';
-        if (typeof selectedContent.scrollIntoView === 'function') {
+
+        // Scroll to the content
+        setTimeout(() => {
             selectedContent.scrollIntoView({ 
                 behavior: 'smooth',
                 block: 'start'
             });
-        }
+        }, 100);
     }
 }
-
-// Mouse move event for mouse tracking
-document.addEventListener('mousemove', (e) => {
-    mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
-    mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
-    
-    // Update custom cursor if it exists
-    const cursor = document.getElementById('cursor');
-    const cursorBlur = document.getElementById('cursor-blur');
-    
-    if (cursor) {
-        cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    }
-    
-    if (cursorBlur) {
-        cursorBlur.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    }
-});
-
-// Document loaded event
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Three.js if universe canvas exists
-    if (document.getElementById('universe')) {
-        initThreeJS();
-    }
-
-    // Click event for universe canvas
-    const universeCanvas = document.getElementById('universe');
-    if (universeCanvas) {
-        universeCanvas.addEventListener('click', (event) => {
-            if (!initialized || !renderer) return;
-            
-            const rect = renderer.domElement.getBoundingClientRect();
-            const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-            const vector = new THREE.Vector3(x * 1000, y * 1000, 0);
-            
-            const supernova = createSupernova(vector.x, vector.y, vector.z);
-            supernovas.push({ 
-                ...supernova, 
-                age: 0,
-                maxAge: 100 
-            });
-        });
-    }
-
-    // Handle music toggle
-    const bgMusic = document.getElementById('bgMusic');
-    const musicToggle = document.getElementById('musicToggle');
-
-    if (bgMusic && musicToggle) {
-        bgMusic.volume = 0.5;
-
-        musicToggle.addEventListener('click', async () => {
-            try {
-                if (bgMusic.paused) {
-                    await bgMusic.play();
-                    musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-                } else {
-                    bgMusic.pause();
-                    musicToggle.innerHTML = '<i class="fas fa-music"></i>';
-                }
-            } catch (err) {
-                console.error('Audio playback error:', err);
-            }
-        });
-    }
-
-    // Landing page handler
-    const landingPage = document.getElementById('landing-page');
-    if (landingPage) {
-        landingPage.addEventListener('click', () => {
-            landingPage.classList.add('fade-out');
-            setTimeout(() => {
-                initializeQuotes();
-            }, 100);
-        });
-    }
-
-    // Initialize preloader
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-        let width = 0;
-        const interval = setInterval(() => {
-            width += 2;
-            const progressBar = document.getElementById('progress-bar');
-            if (progressBar) {
-                progressBar.style.width = width + '%';
-            }
-            if (width >= 100) {
-                clearInterval(interval);
-                preloader.style.opacity = '0';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                }, 500);
-            }
-        }, 20);
-    }
-
-    // Initialize content display
-    document.querySelectorAll('.content-details').forEach(content => {
-        if (content) content.style.display = 'none';
-    });
-
-    // Add hover sound effects with null check
-    const interactiveElements = document.querySelectorAll('.nav-links a, .social-button, .glass-card, .button');
-    if (interactiveElements.length > 0) {
-        interactiveElements.forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                // Empty function to avoid errors
-                // playRandomSound() was here but caused errors
-            });
-        });
-    }
-    
-    // Initialize quotes on page load
-    initializeQuotes();
-    
-    // Initialize the 3D card effect
-    init3DCardEffect();
-    
-    // Smooth scroll for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const hrefAttr = this.getAttribute('href');
-            if (hrefAttr && hrefAttr.startsWith('#')) {
-                e.preventDefault();
-                const section = document.querySelector(hrefAttr);
-                if (section) {
-                    section.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
-    });
-});
-
-// Window resize event
-window.addEventListener('resize', () => {
-    if (initialized && camera && renderer) {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-});
