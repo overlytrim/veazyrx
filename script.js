@@ -395,7 +395,7 @@ if (bgMusic && musicToggle) {
     });
 }
 
-// Add 3D tilt effect to cards
+// Replace 3D tilt effect with rotation/swivel effect on hover
 document.querySelectorAll('.glass-card').forEach(card => {
     card.addEventListener('mousemove', e => {
         const rect = card.getBoundingClientRect();
@@ -408,13 +408,11 @@ document.querySelectorAll('.glass-card').forEach(card => {
         const rotateX = (y - centerY) / 10;
         const rotateY = (centerX - x) / 10;
 
-        card.style.setProperty('--rotateX', `${rotateX}deg`);
-        card.style.setProperty('--rotateY', `${rotateY}deg`);
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     });
 
     card.addEventListener('mouseleave', () => {
-        card.style.setProperty('--rotateX', '0deg');
-        card.style.setProperty('--rotateY', '0deg');
+        card.style.transform = `rotateX(0deg) rotateY(0deg)`;
     });
 });
 
