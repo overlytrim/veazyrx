@@ -1,6 +1,12 @@
+
 // Three.js setup
 let scene, camera, renderer, points;
 let initialized = false;
+let comets = [];
+const supernovas = [];
+
+// Track mouse position
+let mouseX = 0, mouseY = 0;
 
 function initThreeJS() {
     if (initialized) return;
@@ -8,64 +14,55 @@ function initThreeJS() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const canvas = document.getElementById('universe');
-    if (canvas) {
-        renderer = new THREE.WebGLRenderer({ 
-            canvas: canvas,
-            alpha: true,
-            antialias: true 
-        });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        camera.position.z = 1000;
+    
+    if (!canvas) return; // Exit if canvas doesn't exist
+    
+    renderer = new THREE.WebGLRenderer({ 
+        canvas: canvas,
+        alpha: true,
+        antialias: true 
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    camera.position.z = 1000;
 
-        // Initialize geometry
-        const geometry = new THREE.BufferGeometry();
-        const vertices = [];
-        const colors = [];
+    // Initialize geometry
+    const geometry = new THREE.BufferGeometry();
+    const vertices = [];
+    const colors = [];
 
-        for (let i = 0; i < 15000; i++) {
-            vertices.push(
-                Math.random() * 2000 - 1000,
-                Math.random() * 2000 - 1000,
-                Math.random() * 2000 - 1000
-            );
-            const color = new THREE.Color();
-            color.setHSL(Math.random(), 0.8, 0.8);
-            colors.push(color.r, color.g, color.b);
-        }
-
-        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-
-        const material = new THREE.PointsMaterial({
-            size: 1,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.8
-        });
-
-        points = new THREE.Points(geometry, material);
-        scene.add(points);
-        
-        // Initialize comets
-        initializeComets();
-        
-        // Start animation
-        animate();
-        
-        initialized = true;
+    for (let i = 0; i < 15000; i++) {
+        vertices.push(
+            Math.random() * 2000 - 1000,
+            Math.random() * 2000 - 1000,
+            Math.random() * 2000 - 1000
+        );
+        const color = new THREE.Color();
+        color.setHSL(Math.random(), 0.8, 0.8);
+        colors.push(color.r, color.g, color.b);
     }
+
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+        size: 1,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.8
+    });
+
+    points = new THREE.Points(geometry, material);
+    scene.add(points);
+    
+    // Initialize comets
+    initializeComets();
+    
+    // Start animation
+    animate();
+    
+    initialized = true;
 }
-
-// Track supernovas
-const supernovas = [];
-
-// Track mouse position
-let mouseX = 0, mouseY = 0;
-document.addEventListener('mousemove', (e) => {
-    mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
-    mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
-});
 
 // Comet effect
 class Comet {
@@ -115,9 +112,6 @@ class Comet {
         }
     }
 }
-
-// Comets array
-let comets = [];
 
 function initializeComets() {
     comets = Array(5).fill(null).map(() => new Comet());
@@ -261,189 +255,12 @@ function playRandomSound() {
     }
 }
 
-// Document loaded event
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Three.js if universe canvas exists
-    if (document.getElementById('universe')) {
-        initThreeJS();
-    }
-
-    // Click event for universe canvas
-    const universeCanvas = document.getElementById('universe');
-    if (universeCanvas) {
-        universeCanvas.addEventListener('click', (event) => {
-            if (!initialized || !renderer) return;
-            
-            const rect = renderer.domElement.getBoundingClientRect();
-            const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-            const vector = new THREE.Vector3(x * 1000, y * 1000, 0);
-            const supernova = createSupernova(vector.x, vector.y, vector.z);
-            supernovas.push({ 
-                ...supernova, 
-                age: 0,
-                maxAge: 100 
-            });
-        });
-    }
-
-    // Handle music toggle
-    const bgMusic = document.getElementById('bgMusic');
-    const musicToggle = document.getElementById('musicToggle');
-
-    if (bgMusic && musicToggle) {
-        bgMusic.volume = 0.5;
-
-        musicToggle.addEventListener('click', async () => {
-            try {
-                if (bgMusic.paused) {
-                    await bgMusic.play();
-                    musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-                } else {
-                    bgMusic.pause();
-                    musicToggle.innerHTML = '<i class="fas fa-music"></i>';
-                }
-            } catch (err) {
-                console.error('Audio playback error:', err);
-            }
-        });
-    }
-
-    // Custom cursor
-    const cursor = document.getElementById('cursor');
-    const cursorBlur = document.getElementById('cursor-blur');
-
-    if (cursor && cursorBlur) {
-        document.addEventListener('mousemove', (e) => {
-            const cursorX = e.clientX;
-            const cursorY = e.clientY;
-            cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-            cursorBlur.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-        });
-    }
-
-    // Landing page handler
-    const landingPage = document.getElementById('landing-page');
-    if (landingPage) {
-        landingPage.addEventListener('click', () => {
-            landingPage.classList.add('fade-out');
-            setTimeout(() => {
-                initializeQuotes();
-            }, 100);
-        });
-    }
-
-    // Initialize preloader
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-        let width = 0;
-        const interval = setInterval(() => {
-            width += 2;
-            const progressBar = document.getElementById('progress-bar');
-            if (progressBar) {
-                progressBar.style.width = width + '%';
-            }
-            if (width >= 100) {
-                clearInterval(interval);
-                preloader.style.opacity = '0';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                }, 500);
-            }
-        }, 20);
-    }
-
-    // Initialize content display
-    document.querySelectorAll('.content-details').forEach(content => {
-        content.style.display = 'none';
-    });
-
-    // Add hover sound effects with null check
-    const interactiveElements = document.querySelectorAll('.nav-links a, .social-button, .glass-card, .button');
-    if (interactiveElements.length > 0) {
-        interactiveElements.forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                // Empty function to avoid errors
-                // playRandomSound() was here but caused errors
-            });
-        });
-    }
-    
-    // Initialize quotes on page load
-    initializeQuotes();
-    
-    // Initialize the 3D card effect
-    init3DCardEffect();
-});
-
-// Window resize event
-window.addEventListener('resize', () => {
-    if (initialized && camera && renderer) {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-});
-
-// Quotes system
-const quotes = [
-    { text: "Music expresses that which cannot be put into words and that which cannot remain silent.", author: "Victor Hugo" },
-    { text: "One good thing about music, when it hits you, you feel no pain.", author: "Bob Marley" },
-    { text: "Music is the universal language of mankind.", author: "Henry Wadsworth Longfellow" },
-    { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
-    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" }
-];
-
-function getNewQuote() {
-    const quoteTexts = document.querySelectorAll('.quote-text');
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    const quoteContent = `
-        <div class="quote-content">${randomQuote.text.split('').map(char => 
-            char === ' ' ? ' ' : `<span>${char}</span>`
-        ).join('')}</div>
-        <div class="quote-author">- ${randomQuote.author}</div>
-    `;
-    quoteTexts.forEach(quoteText => {
-        if (quoteText) {
-            quoteText.innerHTML = quoteContent;
-        }
-    });
-}
-
-function initializeQuotes() {
-    const quoteTexts = document.querySelectorAll('.quote-text');
-    if (quoteTexts.length > 0) {
-        getNewQuote();
-    }
-}
-
-// Show content function
-function showContent(contentType) {
-    const allContents = document.querySelectorAll('.content-details');
-    allContents.forEach(content => {
-        content.style.opacity = '0';
-        setTimeout(() => {
-            content.style.display = 'none';
-        }, 300);
-    });
-
-    const selectedContent = document.getElementById(`content-${contentType}`);
-    if (selectedContent) {
-        selectedContent.style.display = 'block';
-        selectedContent.offsetHeight; // Force reflow
-        selectedContent.style.opacity = '1';
-        if (typeof selectedContent.scrollIntoView === 'function') {
-            selectedContent.scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    }
-}
-
 // Initialize 3D card effect
 function init3DCardEffect() {
-    document.querySelectorAll('.glass-card').forEach(card => {
+    const cards = document.querySelectorAll('.glass-card');
+    if (!cards || cards.length === 0) return;
+    
+    cards.forEach(card => {
         // Skip the rodeo-card as it has its own specific styling
         if (card.classList.contains('rodeo-card')) return;
         
@@ -496,55 +313,210 @@ function init3DCardEffect() {
     });
 }
 
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const hrefAttr = this.getAttribute('href');
-        if (hrefAttr.startsWith('#')) {
-            e.preventDefault();
-            const section = document.querySelector(hrefAttr);
-            if (section) {
-                section.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
+// Quotes system
+const quotes = [
+    { text: "Music expresses that which cannot be put into words and that which cannot remain silent.", author: "Victor Hugo" },
+    { text: "One good thing about music, when it hits you, you feel no pain.", author: "Bob Marley" },
+    { text: "Music is the universal language of mankind.", author: "Henry Wadsworth Longfellow" },
+    { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
+    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" }
+];
+
+function getNewQuote() {
+    const quoteTexts = document.querySelectorAll('.quote-text');
+    if (!quoteTexts || quoteTexts.length === 0) return;
+    
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    const quoteContent = `
+        <div class="quote-content">${randomQuote.text.split('').map(char => 
+            char === ' ' ? ' ' : `<span>${char}</span>`
+        ).join('')}</div>
+        <div class="quote-author">- ${randomQuote.author}</div>
+    `;
+    quoteTexts.forEach(quoteText => {
+        if (quoteText) {
+            quoteText.innerHTML = quoteContent;
         }
+    });
+}
+
+function initializeQuotes() {
+    const quoteTexts = document.querySelectorAll('.quote-text');
+    if (quoteTexts && quoteTexts.length > 0) {
+        getNewQuote();
+    }
+}
+
+// Show content function
+function showContent(contentType) {
+    const allContents = document.querySelectorAll('.content-details');
+    if (!allContents || allContents.length === 0) return;
+    
+    allContents.forEach(content => {
+        if (content) {
+            content.style.opacity = '0';
+            setTimeout(() => {
+                content.style.display = 'none';
+            }, 300);
+        }
+    });
+
+    const selectedContent = document.getElementById(`content-${contentType}`);
+    if (selectedContent) {
+        selectedContent.style.display = 'block';
+        selectedContent.offsetHeight; // Force reflow
+        selectedContent.style.opacity = '1';
+        if (typeof selectedContent.scrollIntoView === 'function') {
+            selectedContent.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    }
+}
+
+// Mouse move event for mouse tracking
+document.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
+    mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
+    
+    // Update custom cursor if it exists
+    const cursor = document.getElementById('cursor');
+    const cursorBlur = document.getElementById('cursor-blur');
+    
+    if (cursor) {
+        cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    }
+    
+    if (cursorBlur) {
+        cursorBlur.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    }
+});
+
+// Document loaded event
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Three.js if universe canvas exists
+    if (document.getElementById('universe')) {
+        initThreeJS();
+    }
+
+    // Click event for universe canvas
+    const universeCanvas = document.getElementById('universe');
+    if (universeCanvas) {
+        universeCanvas.addEventListener('click', (event) => {
+            if (!initialized || !renderer) return;
+            
+            const rect = renderer.domElement.getBoundingClientRect();
+            const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+            const vector = new THREE.Vector3(x * 1000, y * 1000, 0);
+            
+            const supernova = createSupernova(vector.x, vector.y, vector.z);
+            supernovas.push({ 
+                ...supernova, 
+                age: 0,
+                maxAge: 100 
+            });
+        });
+    }
+
+    // Handle music toggle
+    const bgMusic = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+
+    if (bgMusic && musicToggle) {
+        bgMusic.volume = 0.5;
+
+        musicToggle.addEventListener('click', async () => {
+            try {
+                if (bgMusic.paused) {
+                    await bgMusic.play();
+                    musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+                } else {
+                    bgMusic.pause();
+                    musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+                }
+            } catch (err) {
+                console.error('Audio playback error:', err);
+            }
+        });
+    }
+
+    // Landing page handler
+    const landingPage = document.getElementById('landing-page');
+    if (landingPage) {
+        landingPage.addEventListener('click', () => {
+            landingPage.classList.add('fade-out');
+            setTimeout(() => {
+                initializeQuotes();
+            }, 100);
+        });
+    }
+
+    // Initialize preloader
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        let width = 0;
+        const interval = setInterval(() => {
+            width += 2;
+            const progressBar = document.getElementById('progress-bar');
+            if (progressBar) {
+                progressBar.style.width = width + '%';
+            }
+            if (width >= 100) {
+                clearInterval(interval);
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }
+        }, 20);
+    }
+
+    // Initialize content display
+    document.querySelectorAll('.content-details').forEach(content => {
+        if (content) content.style.display = 'none';
+    });
+
+    // Add hover sound effects with null check
+    const interactiveElements = document.querySelectorAll('.nav-links a, .social-button, .glass-card, .button');
+    if (interactiveElements.length > 0) {
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                // Empty function to avoid errors
+                // playRandomSound() was here but caused errors
+            });
+        });
+    }
+    
+    // Initialize quotes on page load
+    initializeQuotes();
+    
+    // Initialize the 3D card effect
+    init3DCardEffect();
+    
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const hrefAttr = this.getAttribute('href');
+            if (hrefAttr && hrefAttr.startsWith('#')) {
+                e.preventDefault();
+                const section = document.querySelector(hrefAttr);
+                if (section) {
+                    section.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
     });
 });
 
-// Initialize GSAP if it exists
-if (typeof gsap !== 'undefined') {
-    if (typeof ScrollTrigger !== 'undefined') {
-        gsap.registerPlugin(ScrollTrigger);
+// Window resize event
+window.addEventListener('resize', () => {
+    if (initialized && camera && renderer) {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
     }
-
-    // GSAP animations
-    if (document.querySelector('.hero')) {
-        gsap.to('.hero', {
-            yPercent: 50,
-            ease: "none",
-            scrollTrigger: {
-                trigger: '.hero',
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            }
-        });
-    }
-
-    if (document.querySelector('.glass-card')) {
-        gsap.from('.glass-card', {
-            duration: 1.2,
-            y: 100,
-            opacity: 0,
-            rotation: 5,
-            stagger: 0.2,
-            ease: 'elastic.out(1, 0.75)',
-            scrollTrigger: {
-                trigger: '.grid',
-                start: 'top center+=100',
-                toggleActions: 'play none none reverse'
-            }
-        });
-    }
-}
+});
