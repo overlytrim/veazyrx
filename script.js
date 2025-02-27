@@ -1,59 +1,64 @@
-// Three.js setup - only initialize if not already initialized
-let scene, camera, renderer;
-
-let scene, camera, renderer;
+// Three.js setup
+let scene, camera, renderer, points;
+let initialized = false;
 
 function initThreeJS() {
-    if (!scene) {
-        scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const canvas = document.getElementById('universe');
-        if (canvas) {
-            renderer = new THREE.WebGLRenderer({ 
-                canvas: canvas,
-                alpha: true,
-                antialias: true 
-            });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            camera.position.z = 1000;
+    if (initialized) return;
+    
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const canvas = document.getElementById('universe');
+    if (canvas) {
+        renderer = new THREE.WebGLRenderer({ 
+            canvas: canvas,
+            alpha: true,
+            antialias: true 
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        camera.position.z = 1000;
+
+        // Initialize geometry
+        const geometry = new THREE.BufferGeometry();
+        const vertices = [];
+        const colors = [];
+
+        for (let i = 0; i < 15000; i++) {
+            vertices.push(
+                Math.random() * 2000 - 1000,
+                Math.random() * 2000 - 1000,
+                Math.random() * 2000 - 1000
+            );
+            const color = new THREE.Color();
+            color.setHSL(Math.random(), 0.8, 0.8);
+            colors.push(color.r, color.g, color.b);
         }
+
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+        const material = new THREE.PointsMaterial({
+            size: 1,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        points = new THREE.Points(geometry, material);
+        scene.add(points);
+        
+        // Initialize comets
+        initializeComets();
+        
+        // Start animation
+        animate();
+        
+        initialized = true;
     }
 }
 
-// Only initialize if the universe canvas exists
-if (document.getElementById('universe')) {
-    initThreeJS();
-}
-
-// Initialize geometry
-const geometry = new THREE.BufferGeometry();
-const vertices = [];
-const colors = [];
-
-for (let i = 0; i < 15000; i++) {
-    vertices.push(
-        Math.random() * 2000 - 1000,
-        Math.random() * 2000 - 1000,
-        Math.random() * 2000 - 1000
-    );
-    const color = new THREE.Color();
-    color.setHSL(Math.random(), 0.8, 0.8);
-    colors.push(color.r, color.g, color.b);
-}
-
-geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-
-const material = new THREE.PointsMaterial({
-    size: 1,
-    vertexColors: true,
-    transparent: true,
-    opacity: 0.8
-});
-
-const points = new THREE.Points(geometry, material);
-scene.add(points);
+// Track supernovas
+const supernovas = [];
 
 // Track mouse position
 let mouseX = 0, mouseY = 0;
@@ -111,8 +116,12 @@ class Comet {
     }
 }
 
-const comets = Array(5).fill(null).map(() => new Comet());
-const supernovas = [];
+// Comets array
+let comets = [];
+
+function initializeComets() {
+    comets = Array(5).fill(null).map(() => new Comet());
+}
 
 function createSupernova(x, y, z) {
     const particles = new THREE.BufferGeometry();
@@ -193,6 +202,9 @@ function updateSupernovas() {
 
 function animate() {
     requestAnimationFrame(animate);
+    
+    if (!initialized || !points) return;
+    
     comets.forEach(comet => comet.update());
 
     points.rotation.x += 0.0002;
@@ -217,17 +229,51 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-// Only run animation if universe canvas exists
-const universeCanvas = document.getElementById('universe');
-if (universeCanvas && scene && camera && renderer) {
-    animate();
+// Safely play sound function
+function safePlaySound(element) {
+    if (element) {
+        element.currentTime = 0;
+        element.volume = 0.2;
+        try {
+            const playPromise = element.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("Playback prevented:", error);
+                });
+            }
+        } catch (e) {
+            console.log("Error playing sound:", e);
+        }
+    }
 }
 
-// Event Listeners
+// Play random sound with error handling
+function playRandomSound() {
+    const sounds = [];
+    for (let i = 1; i <= 3; i++) {
+        const sound = document.getElementById(`hover-sound-${i}`);
+        if (sound) sounds.push(sound);
+    }
+    
+    if (sounds.length > 0) {
+        const sound = sounds[Math.floor(Math.random() * sounds.length)];
+        safePlaySound(sound);
+    }
+}
+
+// Document loaded event
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Three.js if universe canvas exists
+    if (document.getElementById('universe')) {
+        initThreeJS();
+    }
+
+    // Click event for universe canvas
     const universeCanvas = document.getElementById('universe');
     if (universeCanvas) {
         universeCanvas.addEventListener('click', (event) => {
+            if (!initialized || !renderer) return;
+            
             const rect = renderer.domElement.getBoundingClientRect();
             const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
             const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -263,15 +309,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Custom cursor
     const cursor = document.getElementById('cursor');
     const cursorBlur = document.getElementById('cursor-blur');
 
     if (cursor && cursorBlur) {
         document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-            cursorBlur.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+            const cursorX = e.clientX;
+            const cursorY = e.clientY;
+            cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+            cursorBlur.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
         });
     }
 
@@ -288,24 +335,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize preloader
     const preloader = document.getElementById('preloader');
-    let width = 0;
-    const interval = setInterval(() => {
-        width += 2;
-        const progressBar = document.getElementById('progress-bar');
-        if (progressBar) {
-            progressBar.style.width = width + '%';
-        }
-        if (width >= 100) {
-            clearInterval(interval);
-            if (preloader) {
+    if (preloader) {
+        let width = 0;
+        const interval = setInterval(() => {
+            width += 2;
+            const progressBar = document.getElementById('progress-bar');
+            if (progressBar) {
+                progressBar.style.width = width + '%';
+            }
+            if (width >= 100) {
+                clearInterval(interval);
                 preloader.style.opacity = '0';
                 setTimeout(() => {
                     preloader.style.display = 'none';
                 }, 500);
             }
-        }
-    }, 20);
-
+        }, 20);
+    }
 
     // Initialize content display
     document.querySelectorAll('.content-details').forEach(content => {
@@ -316,17 +362,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const interactiveElements = document.querySelectorAll('.nav-links a, .social-button, .glass-card, .button');
     if (interactiveElements.length > 0) {
         interactiveElements.forEach(element => {
-            element.addEventListener('mouseenter', () => {}); //Empty function to avoid errors
+            element.addEventListener('mouseenter', () => {
+                // Empty function to avoid errors
+                // playRandomSound() was here but caused errors
+            });
         });
     }
+    
+    // Initialize quotes on page load
+    initializeQuotes();
+    
+    // Initialize the 3D card effect
+    init3DCardEffect();
 });
 
+// Window resize event
 window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    if (initialized && camera && renderer) {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
 });
-
 
 // Quotes system
 const quotes = [
@@ -347,7 +404,9 @@ function getNewQuote() {
         <div class="quote-author">- ${randomQuote.author}</div>
     `;
     quoteTexts.forEach(quoteText => {
-        quoteText.innerHTML = quoteContent;
+        if (quoteText) {
+            quoteText.innerHTML = quoteContent;
+        }
     });
 }
 
@@ -373,134 +432,119 @@ function showContent(contentType) {
         selectedContent.style.display = 'block';
         selectedContent.offsetHeight; // Force reflow
         selectedContent.style.opacity = '1';
-        selectedContent.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-        });
+        if (typeof selectedContent.scrollIntoView === 'function') {
+            selectedContent.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
     }
 }
 
-// Add 3D tilt effect to cards
-document.querySelectorAll('.glass-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+// Initialize 3D card effect
+function init3DCardEffect() {
+    document.querySelectorAll('.glass-card').forEach(card => {
+        // Skip the rodeo-card as it has its own specific styling
+        if (card.classList.contains('rodeo-card')) return;
+        
+        let bounds = card.getBoundingClientRect();
+        let mouseLeaveDelay;
 
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
+        const mouseEnter = (e) => {
+            clearTimeout(mouseLeaveDelay);
+            bounds = card.getBoundingClientRect();
+        };
 
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
+        const mouseMove = (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            const leftX = mouseX - bounds.x;
+            const topY = mouseY - bounds.y;
+            const center = {
+                x: leftX - bounds.width / 2,
+                y: topY - bounds.height / 2
+            };
+            const distance = Math.sqrt(center.x ** 2 + center.y ** 2);
 
-        card.style.setProperty('--rotateX', `${rotateX}deg`);
-        card.style.setProperty('--rotateY', `${rotateY}deg`);
+            card.style.transform = `
+                perspective(1000px)
+                scale3d(1.07, 1.07, 1.07)
+                rotate3d(
+                    ${center.y / 100},
+                    ${-center.x / 100},
+                    0,
+                    ${Math.log(distance) * 2}deg
+                )
+            `;
+            card.style.filter = `brightness(1.1) contrast(1.1)`;
+        };
+
+        const mouseLeave = () => {
+            mouseLeaveDelay = setTimeout(() => {
+                card.style.transform = `
+                    perspective(1000px)
+                    scale3d(1, 1, 1)
+                    rotate3d(0, 0, 0, 0)
+                `;
+                card.style.filter = 'brightness(1) contrast(1)';
+            }, 100);
+        };
+
+        card.addEventListener('mouseenter', mouseEnter);
+        card.addEventListener('mousemove', mouseMove);
+        card.addEventListener('mouseleave', mouseLeave);
     });
-
-    card.addEventListener('mouseleave', () => {
-        card.style.setProperty('--rotateX', '0deg');
-        card.style.setProperty('--rotateY', '0deg');
-    });
-});
-
-// Reinitialize quotes when landing page is clicked
-document.getElementById('landing-page').addEventListener('click', () => {
-    setTimeout(initializeQuotes, 100);
-});
+}
 
 // Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const section = document.querySelector(this.getAttribute('href'));
-        if (section) {
-            section.scrollIntoView({
-                behavior: 'smooth'
-            });
+        const hrefAttr = this.getAttribute('href');
+        if (hrefAttr.startsWith('#')) {
+            e.preventDefault();
+            const section = document.querySelector(hrefAttr);
+            if (section) {
+                section.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
         }
     });
 });
 
-// GSAP animations
-gsap.registerPlugin(ScrollTrigger);
-
-gsap.to('.hero', {
-    yPercent: 50,
-    ease: "none",
-    scrollTrigger: {
-        trigger: '.hero',
-        start: "top top",
-        end: "bottom top",
-        scrub: true
+// Initialize GSAP if it exists
+if (typeof gsap !== 'undefined') {
+    if (typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
     }
-});
 
-gsap.from('.glass-card', {
-    duration: 1.2,
-    y: 100,
-    opacity: 0,
-    rotation: 5,
-    stagger: 0.2,
-    ease: 'elastic.out(1, 0.75)',
-    scrollTrigger: {
-        trigger: '.grid',
-        start: 'top center+=100',
-        toggleActions: 'play none none reverse'
+    // GSAP animations
+    if (document.querySelector('.hero')) {
+        gsap.to('.hero', {
+            yPercent: 50,
+            ease: "none",
+            scrollTrigger: {
+                trigger: '.hero',
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
     }
-});
 
-document.querySelectorAll('.glass-card').forEach(card => {
-    // Skip the rodeo-card as it has its own specific styling
-    if (card.classList.contains('rodeo-card')) return;
-
-    let bounds = card.getBoundingClientRect();
-    let mouseLeaveDelay;
-
-    const mouseEnter = (e) => {
-        clearTimeout(mouseLeaveDelay);
-        bounds = card.getBoundingClientRect();
-    };
-
-    const mouseMove = (e) => {
-        const mouseX = e.clientX;
-        const mouseY = e.clientY;
-        const leftX = mouseX - bounds.x;
-        const topY = mouseY - bounds.y;
-        const center = {
-            x: leftX - bounds.width / 2,
-            y: topY - bounds.height / 2
-        };
-        const distance = Math.sqrt(center.x ** 2 + center.y ** 2);
-
-        card.style.transform = `
-            perspective(1000px)
-            scale3d(1.07, 1.07, 1.07)
-            rotate3d(
-                ${center.y / 100},
-                ${-center.x / 100},
-                0,
-                ${Math.log(distance) * 2}deg
-            )
-        `;
-        card.style.filter = `brightness(1.1) contrast(1.1)`;
-    };
-
-    const mouseLeave = () => {
-        mouseLeaveDelay = setTimeout(() => {
-            card.style.transform = `
-                perspective(1000px)
-                scale3d(1, 1, 1)
-                rotate3d(0, 0, 0, 0)
-            `;
-            card.style.filter = 'brightness(1) contrast(1)';
-        }, 100);
-    };
-
-    card.addEventListener('mouseenter', mouseEnter);
-    card.addEventListener('mousemove', mouseMove);
-    card.addEventListener('mouseleave', mouseLeave);
-
-    // Remove scroll-based tilt animation
-});
-
-document.addEventListener('DOMContentLoaded', initializeQuotes);
+    if (document.querySelector('.glass-card')) {
+        gsap.from('.glass-card', {
+            duration: 1.2,
+            y: 100,
+            opacity: 0,
+            rotation: 5,
+            stagger: 0.2,
+            ease: 'elastic.out(1, 0.75)',
+            scrollTrigger: {
+                trigger: '.grid',
+                start: 'top center+=100',
+                toggleActions: 'play none none reverse'
+            }
+        });
+    }
+}
