@@ -26,7 +26,6 @@ if (document.getElementById('universe')) {
     initThreeJS();
 }
 
-
 // Initialize geometry
 const geometry = new THREE.BufferGeometry();
 const vertices = [];
@@ -224,7 +223,6 @@ if (universeCanvas && scene && camera && renderer) {
     animate();
 }
 
-
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
     const universeCanvas = document.getElementById('universe');
@@ -314,10 +312,13 @@ document.addEventListener('DOMContentLoaded', () => {
         content.style.display = 'none';
     });
 
-    // Add hover sound effects (removed playRandomSound for now)
-    document.querySelectorAll('.nav-links a, .social-button, .glass-card, .button').forEach(element => {
-        element.addEventListener('mouseenter', () => {}); //Empty function to avoid errors
-    });
+    // Add hover sound effects with null check
+    const interactiveElements = document.querySelectorAll('.nav-links a, .social-button, .glass-card, .button');
+    if (interactiveElements.length > 0) {
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {}); //Empty function to avoid errors
+        });
+    }
 });
 
 window.addEventListener('resize', () => {
@@ -451,7 +452,7 @@ gsap.from('.glass-card', {
 document.querySelectorAll('.glass-card').forEach(card => {
     // Skip the rodeo-card as it has its own specific styling
     if (card.classList.contains('rodeo-card')) return;
-    
+
     let bounds = card.getBoundingClientRect();
     let mouseLeaveDelay;
 
