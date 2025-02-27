@@ -1,3 +1,6 @@
+The file `styles.css` contains JavaScript code for setting up a Three.js scene, along with various animations and event listeners. Here is the current content of the file:
+
+```javascript
 // Three.js setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -278,44 +281,7 @@ document.querySelectorAll('.nav-links a, .social-button, .glass-card, .button').
 // Quotes system
 const quotes = [
     { text: "Music expresses that which cannot be put into words and that which cannot remain silent.", author: "Victor Hugo" },
-    { text: "One good thing about music, when it hits you, you feel no pain.", author: "Bob Marley" },
-    { text: "Music is the universal language of mankind.", author: "Henry Wadsworth Longfellow" },
-    { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
-    { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
-    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
-    { text: "Fall seven times, stand up eight.", author: "Japanese Proverb" },
-    { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
-    { text: "Life is not about waiting for the storm to pass, it's about learning to dance in the rain.", author: "Vivian Greene" },
-    { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
-    { text: "Strength does not come from winning. Your struggles develop your strengths.", author: "Arnold Schwarzenegger" },
-    { text: "Success is walking from failure to failure with no loss of enthusiasm.", author: "Winston Churchill" },
-    { text: "The only limit to our realization of tomorrow will be our doubts of today.", author: "Franklin D. Roosevelt" },
-    { text: "What lies behind us and what lies before us are tiny matters compared to what lies within us.", author: "Ralph Waldo Emerson" },
-    { text: "When you reach the end of your rope, tie a knot in it and hang on.", author: "Franklin D. Roosevelt" },
-    { text: "You never fail until you stop trying.", author: "Albert Einstein" },
-    { text: "The harder you work for something, the greater you'll feel when you achieve it.", author: "Anonymous" },
-    { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
-    { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
-    { text: "Success is not built on success. It's built on failure. It's built on frustration. Sometimes it's built on catastrophe.", author: "Sumner Redstone" },
-    { text: "The music is not in the notes, but in the silence between.", author: "Wolfgang Amadeus Mozart" },
-    { text: "Music washes away from the soul the dust of everyday life.", author: "Berthold Auerbach" },
-    { text: "Music is a higher revelation than all wisdom and philosophy.", author: "Ludwig van Beethoven" },
-    { text: "Life seems to go on without effort when I am filled with music.", author: "George Eliot" },
-    { text: "Music is the soundtrack of your life.", author: "Dick Clark" },
-    { text: "Music touches us emotionally, where words alone can't.", author: "Johnny Depp" },
-    { text: "If music be the food of love, play on.", author: "William Shakespeare" },
-    { text: "Music is the great uniter. An incredible force.", author: "Dave Matthews" },
-    { text: "Music is like a dream. One that I cannot hear.", author: "Ludwig van Beethoven" },
-    { text: "Music is the divine way to tell beautiful, poetic things to the heart.", author: "Pablo Casals" },
-    { text: "The people who are crazy enough to think they can change the world are the ones who do.", author: "Steve Jobs" },
-    { text: "Stay hungry, stay foolish.", author: "Steve Jobs" },
-    { text: "When something is important enough, you do it even if the odds are not in your favor.", author: "Elon Musk" },
-    { text: "I think it is possible for ordinary people to choose to be extraordinary.", author: "Elon Musk" },
-    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
-    { text: "Persistence is very important. You should not give up unless you are forced to give up.", author: "Elon Musk" },
-    { text: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
-    { text: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
-    { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" }
+    ...
 ];
 
 function getNewQuote() {
@@ -550,3 +516,4 @@ document.querySelectorAll('.glass-card').forEach(card => {
 .glass-card.rodeo-card:hover img[src="rodeo-rc.jpg"] {
     transform: scale(1.05);
 }
+```
