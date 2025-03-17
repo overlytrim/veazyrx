@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self';">
     <title>musicRx</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"></script>
@@ -13,23 +13,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Audio Elements (Optional, Local Files) -->
-    <audio id="bgMusic" loop style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: none;">
-        <source src="audio/background.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="hover-sound-1" preload="auto" style="display: none;">
-        <source src="audio/hover1.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="hover-sound-2" preload="auto" style="display: none;">
-        <source src="audio/hover2.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="hover-sound-3" preload="auto" style="display: none;">
-        <source src="audio/hover3.mp3" type="audio/mpeg">
-    </audio>
-    <button id="musicToggle" style="position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid var(--primary); color: var(--primary); padding: 10px; border-radius: 50%; cursor: pointer; transition: all 0.3s ease; display: none;">
-        <i class="fas fa-music"></i>
-    </button>
-
     <!-- Preloader -->
     <div id="preloader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--dark); display: flex; justify-content: center; align-items: center; z-index: 10000; transition: opacity 0.5s;">
         <div style="color: var(--primary); font-size: 2em; text-align: center;">
@@ -91,15 +74,15 @@
                     <div class="carousel">
                         <div class="carousel-inner">
                             <div class="glass-card artist-card">
-                                <img src="images/carti.jpg" alt="Playboi Carti">
+                                <img src="images/carti.jpg" alt="Playboi Carti" onerror="this.src='https://via.placeholder.com/200';">
                                 <h3>Playboi Carti</h3>
                             </div>
                             <div class="glass-card artist-card">
-                                <img src="images/dot.jpeg" alt="Kendrick Lamar">
+                                <img src="images/dot.jpeg" alt="Kendrick Lamar" onerror="this.src='https://via.placeholder.com/200';">
                                 <h3>Kendrick Lamar</h3>
                             </div>
                             <div class="glass-card artist-card">
-                                <img src="images/yeee.jpeg" alt="Ye">
+                                <img src="images/yeee.jpeg" alt="Ye" onerror="this.src='https://via.placeholder.com/200';">
                                 <h3>Ye</h3>
                             </div>
                         </div>
@@ -114,15 +97,15 @@
                     <div class="carousel">
                         <div class="carousel-inner">
                             <div class="glass-card album-card">
-                                <img src="images/mbdtff.jpeg" alt="My Beautiful Dark Twisted Fantasy">
+                                <img src="images/mbdtff.jpeg" alt="My Beautiful Dark Twisted Fantasy" onerror="this.src='https://via.placeholder.com/200';">
                                 <h3>My Beautiful Dark Twisted Fantasy</h3>
                             </div>
                             <div class="glass-card album-card">
-                                <img src="images/gkmc3.jpeg" alt="good kid, m.A.A.d city">
+                                <img src="images/gkmc3.jpeg" alt="good kid, m.A.A.d city" onerror="this.src='https://via.placeholder.com/200';">
                                 <h3>good kid, m.A.A.d city</h3>
                             </div>
                             <div class="glass-card album-card">
-                                <img src="images/tpab3.jpeg" alt="To Pimp a Butterfly">
+                                <img src="images/tpab3.jpeg" alt="To Pimp a Butterfly" onerror="this.src='https://via.placeholder.com/200';">
                                 <h3>To Pimp a Butterfly</h3>
                             </div>
                         </div>
