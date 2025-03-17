@@ -55,37 +55,47 @@ document.addEventListener('mousemove', (e) => {
 });
 
 document.querySelectorAll('.sidebar-link, .social-button, .glass-card').forEach(element => {
-    element.addEventListener('mouseenter', playRandomSound);
+    element.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'scale(2)';
+        cursorBlur.style.transform = 'scale(2)';
+        playRandomSound();
+    });
     element.addEventListener('mouseleave', () => {
         cursor.style.transform = 'scale(1)';
         cursorBlur.style.transform = 'scale(1)';
     });
-    element.addEventListener('mouseenter', () => {
-        cursor.style.transform = 'scale(2)';
-        cursorBlur.style.transform = 'scale(2)';
-    });
 });
 
 function playRandomSound() {
-    const sounds = ['hover-sound-1', 'hover-sound-2', 'hover-sound-3'];
-    const randomSound = document.getElementById(sounds[Math.floor(Math.random() * sounds.length)]);
-    randomSound.currentTime = 0;
-    randomSound.play().catch(error => console.log('Audio play failed:', error));
+    const sounds = [
+        document.getElementById('hover-sound-1'),
+        document.getElementById('hover-sound-2'),
+        document.getElementById('hover-sound-3')
+    ];
+    const availableSounds = sounds.filter(sound => sound && sound.src);
+    if (availableSounds.length > 0) {
+        const randomSound = availableSounds[Math.floor(Math.random() * availableSounds.length)];
+        randomSound.currentTime = 0;
+        randomSound.play().catch(error => console.log('Audio play failed:', error));
+    }
 }
 
-// Audio Control
+// Audio Control (Enabled only if audio exists)
 const musicToggle = document.getElementById('musicToggle');
 const bgMusic = document.getElementById('bgMusic');
-
-musicToggle.addEventListener('click', () => {
-    if (bgMusic.paused) {
-        bgMusic.play();
-        musicToggle.style.color = '#00f7ff';
-    } else {
-        bgMusic.pause();
-        musicToggle.style.color = '#b3b3b3';
-    }
-});
+if (bgMusic && bgMusic.src) {
+    musicToggle.style.display = 'block';
+    bgMusic.style.display = 'block';
+    musicToggle.addEventListener('click', () => {
+        if (bgMusic.paused) {
+            bgMusic.play();
+            musicToggle.style.color = '#00f7ff';
+        } else {
+            bgMusic.pause();
+            musicToggle.style.color = '#b3b3b3';
+        }
+    });
+}
 
 // Preloader and Landing Page Animation
 const preloader = document.getElementById('preloader');
