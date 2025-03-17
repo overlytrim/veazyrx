@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self';">
     <title>musicRx</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"></script>
@@ -12,20 +13,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Audio Elements -->
-    <audio id="bgMusic" loop style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
-        <source src="https://od.lk/s/MzhfMjg2MDQ2MDJf/veazy%20x%20dpbeats.mp3" type="audio/mpeg">
+    <!-- Audio Elements (Optional, Local Files) -->
+    <audio id="bgMusic" loop style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: none;">
+        <source src="audio/background.mp3" type="audio/mpeg">
     </audio>
-    <audio id="hover-sound-1" preload="auto">
-        <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
+    <audio id="hover-sound-1" preload="auto" style="display: none;">
+        <source src="audio/hover1.mp3" type="audio/mpeg">
     </audio>
-    <audio id="hover-sound-2" preload="auto">
-        <source src="https://assets.mixkit.co/active_storage/sfx/2570/2570-preview.mp3" type="audio/mpeg">
+    <audio id="hover-sound-2" preload="auto" style="display: none;">
+        <source src="audio/hover2.mp3" type="audio/mpeg">
     </audio>
-    <audio id="hover-sound-3" preload="auto">
-        <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg">
+    <audio id="hover-sound-3" preload="auto" style="display: none;">
+        <source src="audio/hover3.mp3" type="audio/mpeg">
     </audio>
-    <button id="musicToggle" style="position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid var(--primary); color: var(--primary); padding: 10px; border-radius: 50%; cursor: pointer; transition: all 0.3s ease;">
+    <button id="musicToggle" style="position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid var(--primary); color: var(--primary); padding: 10px; border-radius: 50%; cursor: pointer; transition: all 0.3s ease; display: none;">
         <i class="fas fa-music"></i>
     </button>
 
@@ -83,7 +84,6 @@
                     <p>musicRx is your portal to the cosmos of sound. Dive into reviews, features, and the latest beats from across the galaxy. Let the rhythm guide you through the stars.</p>
                 </div>
             </section>
-            <!-- Example Carousel Section (Inspired by Reviews/Features) -->
             <section class="carousel-section">
                 <h2 class="section-title">Featured Artists</h2>
                 <div class="carousel-container">
@@ -91,15 +91,15 @@
                     <div class="carousel">
                         <div class="carousel-inner">
                             <div class="glass-card artist-card">
-                                <img src="carti.jpg" alt="Playboi Carti">
+                                <img src="images/carti.jpg" alt="Playboi Carti">
                                 <h3>Playboi Carti</h3>
                             </div>
                             <div class="glass-card artist-card">
-                                <img src="dot.jpeg" alt="Kendrick Lamar">
+                                <img src="images/dot.jpeg" alt="Kendrick Lamar">
                                 <h3>Kendrick Lamar</h3>
                             </div>
                             <div class="glass-card artist-card">
-                                <img src="yeee.jpeg" alt="Ye">
+                                <img src="images/yeee.jpeg" alt="Ye">
                                 <h3>Ye</h3>
                             </div>
                         </div>
@@ -114,15 +114,15 @@
                     <div class="carousel">
                         <div class="carousel-inner">
                             <div class="glass-card album-card">
-                                <img src="mbdtff.jpeg" alt="My Beautiful Dark Twisted Fantasy">
+                                <img src="images/mbdtff.jpeg" alt="My Beautiful Dark Twisted Fantasy">
                                 <h3>My Beautiful Dark Twisted Fantasy</h3>
                             </div>
                             <div class="glass-card album-card">
-                                <img src="gkmc3.jpeg" alt="good kid, m.A.A.d city">
+                                <img src="images/gkmc3.jpeg" alt="good kid, m.A.A.d city">
                                 <h3>good kid, m.A.A.d city</h3>
                             </div>
                             <div class="glass-card album-card">
-                                <img src="tpab3.jpeg" alt="To Pimp a Butterfly">
+                                <img src="images/tpab3.jpeg" alt="To Pimp a Butterfly">
                                 <h3>To Pimp a Butterfly</h3>
                             </div>
                         </div>
