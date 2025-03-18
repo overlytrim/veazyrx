@@ -1,4 +1,4 @@
-// Three.js setup - only initialize if not already initialized
+// Three.js setup
 let scene, camera, renderer;
 
 function initThreeJS() {
@@ -21,7 +21,6 @@ function initThreeJS() {
 
 initThreeJS();
 
-// Initialize geometry
 const geometry = new THREE.BufferGeometry();
 const vertices = [];
 const colors = [];
@@ -50,14 +49,12 @@ const material = new THREE.PointsMaterial({
 const points = new THREE.Points(geometry, material);
 scene.add(points);
 
-// Track mouse position
 let mouseX = 0, mouseY = 0;
 document.addEventListener('mousemove', (e) => {
     mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
     mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
 });
 
-// Comet effect
 class Comet {
     constructor() {
         this.position = new THREE.Vector3(
@@ -212,10 +209,8 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-// Initialize
 animate();
 
-// Scrolling function
 function scroll(elementId, amount) {
     const container = document.getElementById(elementId);
     if (container) {
@@ -230,35 +225,47 @@ function scroll(elementId, amount) {
     }
 }
 
-// Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-    // Navbar Toggle
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
-    if (hamburger && navLinks) {
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+    // Dropdown Toggle
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    if (dropdownToggle && dropdownMenu) {
+        dropdownToggle.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('active');
         });
     }
 
-    // Supernova on click
-    const universeCanvas = document.getElementById('universe');
-    if (universeCanvas) {
-        universeCanvas.addEventListener('click', (event) => {
-            const rect = renderer.domElement.getBoundingClientRect();
-            const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-            const vector = new THREE.Vector3(x * 1000, y * 1000, 0);
-            const supernova = createSupernova(vector.x, vector.y, vector.z);
-            supernovas.push({ 
-                ...supernova, 
-                age: 0,
-                maxAge: 100 
-            });
+    // Magic Search Bar
+    const magicButton = document.getElementById('magicButton');
+    const magicInput = document.getElementById('magicInput');
+    const magicAnswer = document.getElementById('magicAnswer');
+    const answers = [
+        "Yes, absolutely!",
+        "No, not at all.",
+        "Maybe, who knows?",
+        "Yes, but with a twist.",
+        "No, try again later."
+    ];
+
+    if (magicButton && magicInput && magicAnswer) {
+        magicButton.addEventListener('click', () => {
+            if (magicInput.value.trim()) {
+                const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
+                magicAnswer.textContent = randomAnswer;
+            } else {
+                magicAnswer.textContent = "Ask me something first!";
+            }
+        });
+
+        magicInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && magicInput.value.trim()) {
+                const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
+                magicAnswer.textContent = randomAnswer;
+            }
         });
     }
 
-    // Music toggle
+    // Music Toggle
     const bgMusic = document.getElementById('bgMusic');
     const musicToggle = document.getElementById('musicToggle');
     if (bgMusic && musicToggle) {
@@ -312,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    document.querySelectorAll('.nav-links a, .social-button, .glass-card, .button').forEach(element => {
+    document.querySelectorAll('.dropdown-menu a, .social-button, .glass-card, .button').forEach(element => {
         element.addEventListener('mouseenter', () => {
             playRandomSound();
         });
@@ -353,6 +360,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setupAllGlassCards();
     window.addEventListener('resize', setupAllGlassCards);
+
+    // Newsletter Form Submission
+    const newsletterForm = document.querySelector('.newsletter-form');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for subscribing to MusicRx!');
+            newsletterForm.reset();
+        });
+    }
 });
 
 window.addEventListener('resize', () => {
@@ -361,20 +378,6 @@ window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const section = document.querySelector(this.getAttribute('href'));
-        if (section) {
-            section.scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-    });
-});
-
-// GSAP animations
 gsap.registerPlugin(ScrollTrigger);
 gsap.to('.hero', {
     yPercent: 50,
