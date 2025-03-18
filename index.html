@@ -138,4 +138,144 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="script.js"></script>
 </body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicRx - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="cursor"></div>
+    <div id="cursor-blur"></div>
+    <canvas id="universe"></canvas>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <span class="logo-symbol"><i class="fas fa-heartbeat"></i></span>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-toggle"><i class="fas fa-bars"></i></button>
+            <ul class="dropdown-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="reviews.html" class="nav-link">Reviews</a></li>
+                <li><a href="features.html" class="nav-link">Features</a></li>
+                <li><a href="news.html" class="nav-link">News</a></li>
+                <li><a href="catchcarti.html" class="nav-link">Catch Carti</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <h1 class="neon-title">MUSICRX</h1>
+
+        <!-- Magic Search Bar -->
+        <div class="magic-search">
+            <input type="text" id="magicInput" placeholder="Ask the Music Oracle...">
+            <button id="magicButton"><i class="fas fa-search"></i></button>
+            <p id="magicAnswer"></p>
+        </div>
+
+        <!-- Reviews Section -->
+        <section class="scroll-section">
+            <h2 class="section-title">Reviews</h2>
+            <div class="scroll-container" id="reviewsScroll">
+                <div class="glass-card" onclick="window.location.href='reviews.html#review-wlr'">
+                    <img src="red.jpeg" alt="Playboi Carti - Whole Lotta Red">
+                    <h3>Whole Lotta Red</h3>
+                </div>
+                <div class="glass-card" onclick="window.location.href='reviews.html#review-dielit'">
+                    <img src="die.jpeg" alt="Playboi Carti - Die Lit">
+                    <h3>Die Lit</h3>
+                </div>
+                <div class="glass-card" onclick="window.location.href='reviews.html#review-carti'">
+                    <img src="selff.jpg" alt="Playboi Carti - Self Titled">
+                    <h3>Playboi Carti</h3>
+                </div>
+                <div class="glass-card" onclick="window.location.href='reviews.html#review-mbdtf'">
+                    <img src="mbdtff.jpeg" alt="Kanye West - My Beautiful Dark Twisted Fantasy">
+                    <h3>My Beautiful Dark Twisted Fantasy</h3>
+                </div>
+            </div>
+            <div class="scroll-controls">
+                <button onclick="scroll('reviewsScroll', -300)"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="scroll('reviewsScroll', 300)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="scroll-section">
+            <h2 class="section-title">Features</h2>
+            <div class="scroll-container" id="featuresScroll">
+                <div class="glass-card" onclick="window.location.href='features.html'">
+                    <img src="yeee.jpeg" alt="Ye Feature">
+                    <h3>Ye</h3>
+                </div>
+            </div>
+            <div class="scroll-controls">
+                <button onclick="scroll('featuresScroll', -300)"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="scroll('featuresScroll', 300)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </section>
+
+        <!-- News Section -->
+        <section class="scroll-section">
+            <h2 class="section-title">News</h2>
+            <div class="scroll-container" id="newsScroll">
+                <div class="glass-card" onclick="window.location.href='news.html'">
+                    <img src="placeholder-news.jpg" alt="News Placeholder">
+                    <h3>Coming Soon</h3>
+                </div>
+            </div>
+            <div class="scroll-controls">
+                <button onclick="scroll('newsScroll', -300)"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="scroll('newsScroll', 300)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="musicrx-logo">MusicRx</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a> | 
+                <a href="reviews.html">Reviews</a> | 
+                <a href="features.html">Features</a>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-button"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-button"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-button"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="newsletter-section">
+            <h2>Join the MusicRx Community</h2>
+            <p>Get the latest music news, reviews, and exclusive content delivered to your inbox.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </footer>
+
+    <audio id="bgMusic" loop>
+        <source src="background-music.mp3" type="audio/mp3">
+    </audio>
+    <button id="musicToggle"><i class="fas fa-music"></i></button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
 </html>
