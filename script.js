@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Search functionality
+    // Search functionality across all sections
     const searchInput = document.getElementById('reviewSearch');
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.glass-card');
             
             cards.forEach(card => {
-                const title = card.querySelector('h2')?.textContent.toLowerCase() || '';
+                const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
                 const shouldShow = title.includes(searchTerm);
                 card.style.display = shouldShow ? 'inline-flex' : 'none';
                 card.style.opacity = shouldShow ? '1' : '0';
