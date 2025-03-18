@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        /* Original styles */
         #landing-page {
             position: fixed;
             top: 0;
@@ -204,8 +205,6 @@
             color: #fff;
             overflow-x: hidden;
             perspective: 2000px;
-            --glass-card-opacity: 1;
-            --content-details-display: flex;
         }
 
         h1, h2, .nav-links a {
@@ -222,6 +221,25 @@
             backdrop-filter: blur(10px);
             padding: 1rem;
             z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .musicrx-logo {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .logo-symbol {
+            color: var(--primary);
         }
 
         .nav-links {
@@ -280,10 +298,7 @@
 
         .social-links {
             display: flex;
-            flex-direction: row;
             gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
         }
 
         .social-button {
@@ -294,35 +309,22 @@
             border-radius: 50%;
             color: white;
             text-decoration: none;
-            text-align: center;
-            transition: all 0.3s;
-            width: 70px;
-            height: 70px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            filter: blur(0);
-            transition: filter 0.3s, transform 0.3s;
+            transition: all 0.3s;
         }
 
         .social-button:hover {
             transform: translateY(-5px);
             border-color: var(--primary);
             box-shadow: 0 0 20px rgba(0, 247, 255, 0.2);
-            filter: blur(2px);
-            transform: translateY(-8px) rotate(360deg) scale(1.1);
-        }
-
-        .bio {
-            max-width: 600px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.8);
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -332,12 +334,6 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            opacity: 1;
-            display: block;
-            visibility: visible;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
         }
 
         .glass-card:hover {
@@ -349,48 +345,59 @@
                 0 0 30px rgba(0, 247, 255, 0.4);
         }
 
-        .button {
-            background: transparent;
-            border: 2px solid var(--primary);
+        .glitch {
+            position: relative;
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
             color: var(--primary);
-            padding: 1rem 2rem;
-            font-size: 1.1em;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-            border-radius: 8px;
-            margin: 2rem 0;
+            text-shadow: 
+                0 0 10px var(--primary),
+                0 0 20px var(--primary),
+                0 0 40px var(--primary);
         }
 
-        .button:hover {
-            color: var(--dark);
-            border-color: transparent;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 4rem 0;
-            perspective: 1000px;
-        }
-
-        .content-section {
-            min-height: 100vh;
-            padding-top: 80px;
+        .glitch::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
             width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary) 0%, transparent 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: drip 2s infinite;
+            transform-origin: top;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            width: 100%;
+        @keyframes drip {
+            0% { transform: scaleY(0); filter: blur(0); opacity: 1; }
+            100% { transform: scaleY(4); filter: blur(2px); opacity: 0; }
+        }
+
+        .heartbeat-text {
             position: relative;
-            z-index: 1;
+            font-size: 1rem;
+            white-space: nowrap;
+            letter-spacing: 0.2em;
+            color: rgba(255, 255, 255, 0.8);
         }
 
+        .heartbeat-line {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            animation: heartMonitor 1.5s ease-in-out infinite;
+        }
+
+        /* New scrolling styles */
         .scroll-section {
             padding: 2rem;
             margin: 2rem 0;
@@ -486,95 +493,53 @@
             margin: 0 auto;
         }
 
+        /* Footer styles */
+        .site-footer {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-logo .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
         @media (max-width: 768px) {
-            #universe { opacity: 0.5; }
             .hero h1 { font-size: 2.5em; }
             #cursor, #cursor-blur { display: none; }
-            .nav-links { gap: 1rem; flex-wrap: wrap; padding: 0.5rem; }
-            .glass-card { margin: 1rem 0; }
-            .landing-title { font-size: 2.5em; }
-            .quote-container { padding: 1rem; margin: 2rem 1rem; }
-            .quote-text { font-size: 1.2rem; }
-            .social-links { gap: 0.5rem; }
-            .social-button { width: 50px; height: 50px; }
-            .container { padding: 0 1rem; }
+            .nav-links { gap: 1rem; flex-wrap: wrap; }
             .scroll-section { padding: 1rem; }
             .scroll-item { flex: 0 0 250px; min-width: 250px; }
+            .footer-content { flex-direction: column; text-align: center; }
         }
-
-        /* [Rest of your existing styles remain unchanged] */
-        .glitch {
-            position: relative;
-            font-size: 4rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--primary);
-            text-shadow: 
-                0 0 10px var(--primary),
-                0 0 20px var(--primary),
-                0 0 40px var(--primary);
-        }
-
-        .glitch::before {
-            content: attr(data-text);
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, var(--primary) 0%, transparent 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: drip 2s infinite;
-            transform-origin: top;
-        }
-
-        @keyframes drip {
-            0% { transform: scaleY(0); filter: blur(0); opacity: 1; }
-            100% { transform: scaleY(4); filter: blur(2px); opacity: 0; }
-        }
-
-        .quote-container {
-            margin: 4rem auto;
-            max-width: 800px;
-            width: 90%;
-            padding: 2rem;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-            hyphens: auto;
-        }
-
-        .quote-text {
-            font-size: clamp(1rem, 4vw, 1.5rem);
-            line-height: 1.6;
-            color: var(--primary);
-            text-align: center;
-            padding: 0 1rem;
-        }
-
-        .content-details {
-            margin-top: 2rem;
-            padding: 2rem;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            color: white;
-            animation: fadeIn 0.5s ease-in-out;
-            display: flex;
-            flex-direction: column;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Add any additional styles you want to keep from the original */
     </style>
 </head>
 <body>
@@ -619,54 +584,39 @@
 
     <div id="cursor"></div>
     <div id="cursor-blur"></div>
+    <canvas id="universe"></canvas>
 
     <nav>
+        <div class="nav-logo">
+            <div class="musicrx-logo">MusicRx</div>
+            <div class="logo-symbol">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+        </div>
         <ul class="nav-links">
-            <li><a href="index.html" class="nav-link">Home</a></li>
-            <li><a href="reviews.html" class="nav-link">Reviews</a></li>
-            <li><a href="features.html" class="nav-link">Features</a></li>
-            <li><a href="news.html" class="nav-link">News</a></li>
-            <li><a href="opinions.html" class="nav-link">Opinions</a></li>
-            <li><a href="interviews.html" class="nav-link">Interviews</a></li>
-            <li><a href="shop.html" class="nav-link">Shop</a></li>
-            <li><a href="about.html" class="nav-link">About</a></li>
-            <li><a href="catchcarti.html" class="nav-link">Catch Carti</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="reviews.html">Reviews</a></li>
+            <li><a href="features.html">Features</a></li>
+            <li><a href="news.html">News</a></li>
+            <li><a href="opinions.html">Opinions</a></li>
+            <li><a href="interviews.html">Interviews</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="catchcarti.html">Catch Carti</a></li>
         </ul>
     </nav>
 
-    <canvas id="universe"></canvas>
-
     <section class="hero">
         <h1 class="glitch" data-text="MusicRx">MusicRx</h1>
-        <p class="bio heartbeat-text" style="font-size: 1rem; white-space: nowrap; letter-spacing: 0.2em; position: relative;">
+        <p class="heartbeat-text" style="margin-top: -1rem;">
             MUSIC IS MY THERAPY
             <span class="heartbeat-line"></span>
         </p>
-
-        <div class="social-links">
-            <a href="https://instagram.com/airveazy" class="social-button" target="_blank">
-                <i class="fab fa-instagram fa-2x"></i>
-            </a>
-            <a href="https://x.com/36966_" class="social-button" target="_blank">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-            </a>
-            <a href="https://tiktok.com/@okveazy" class="social-button" target="_blank">
-                <i class="fab fa-tiktok fa-2x"></i>
-            </a>
-            <a href="https://github.com/vzdzt" class="social-button" target="_blank">
-                <i class="fab fa-github fa-2x"></i>
-            </a>
-            <a href="catchcarti.html" class="social-button" target="_blank">
-                <i class="fas fa-compact-disc fa-2x"></i>
-            </a>
-        </div>
     </section>
 
     <div class="content-container">
         <!-- Reviews Section -->
-        <section class="scroll-section" id="reviews-scroll-section">
+        <section class="scroll-section" id="reviews">
             <div class="section-header">
                 <h2 class="section-title">Latest Reviews</h2>
                 <div class="scroll-nav">
@@ -795,97 +745,39 @@
         </section>
     </div>
 
-    <section id="reviews" class="content-section">
-        <div class="container">
-            <div class="grid">
-                <div class="glass-card" onclick="showContent('reviews')">
-                    <h2>Latest Reviews</h2>
-                    <p>Travis Scott - RODEO</p>
-                    <p>SZA - SOS</p>
-                    <p>Tyler, The Creator - CALL ME IF YOU GET LOST</p>
-                </div>
-                <div class="glass-card" onclick="showContent('artists')">
-                    <h2>Featured Artists</h2>
-                    <p>Drake</p>
-                    <p>Kendrick Lamar</p>
-                    <p>Taylor Swift</p>
-                </div>
-                <div class="glass-card" onclick="showContent('trending')">
-                    <h2>Trending</h2>
-                    <p>Hip Hop Evolution</p>
-                    <p>Pop Renaissance</p>
-                    <p>Alternative Scene</p>
-                </div>
-            </div>
-
-            <div id="content-reviews" class="content-details">
-                <h2>Latest Reviews</h2>
-                <div class="review-content">
-                    <h3>Travis Scott - RODEO</h3>
-                    <div class="glass-card rodeo-card">
-                        <img src="rodeo-rc.jpg" alt="Travis Scott Rodeo album image">
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="logo-container">
+                    <div class="musicrx-logo">MusicRx</div>
+                    <div class="logo-symbol">
+                        <i class="fas fa-heartbeat"></i>
                     </div>
-                    <p>Hip-hop soared into uncharted territory on <span class="highlight">September 4, 2015</span>, when Travis Scott dropped <em>Rodeo</em>, his debut studio album under Grand Hustle and Epic Records...</p>
-                    <!-- [Rest of Travis Scott review content] -->
                 </div>
             </div>
-
-            <div id="content-artists" class="content-details">
-                <h2>Featured Artists</h2>
-                <div class="review-content">
-                    <h3>Aubrey Graham - DRAKE</h3>
-                    <div class="glass-card drake-card">
-                        <img src="ap-drake2.jpeg" alt="Drake ap img">
-                        <p>From his early days as Jimmy Brooks on <span class="highlight">Degrassi</span> to becoming one of the most streamed artists of all time...</p>
-                    </div>
-                    <!-- [Rest of Drake content] -->
-                </div>
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
             </div>
-
-            <div id="content-trending" class="content-details">
-                <h2>Trending</h2>
-                <div class="trending-content">
-                    <h3>Hip Hop Evolution</h3>
-                    <p>In 2025, the underground rap scene is a vibrant space where emerging artists are pushing creative boundaries...</p>
-                    <!-- [Rest of trending content] -->
-                </div>
-            </div>
-
-            <div id="content-news" class="content-details">
-                <h2>News</h2>
-                <div class="news-content">
-                    <div class="glass-card">
-                        <h3>This Week's Updates</h3>
-                        <p>March 15, 2025</p>
-                        <p>The wait is over—Playboi Carti finally dropped his long-awaited album "I Am Music"...</p>
-                    </div>
-                    <!-- [Rest of news content] -->
-                </div>
-            </div>
-
-            <div id="content-opinions" class="content-details">
-                <h2>Opinions</h2>
-                <div class="glass-card">
-                    <h3>Hot Takes</h3>
-                    <p>Streaming platforms like Spotify have turned music into background noise...</p>
-                    <!-- [Rest of opinions content] -->
-                </div>
-            </div>
-
-            <div id="content-interviews" class="content-details">
-                <h2>Interviews</h2>
-                <div class="interview-content">
-                    <h3>Upcoming Interviews</h3>
-                    <p>Coming soon...</p>
-                </div>
+            <div class="social-links">
+                <a href="https://twitter.com/36966_" class="social-button" target="_blank">
+                    <i class="fab fa-twitter fa-2x"></i>
+                </a>
+                <a href="https://instagram.com/airveazy" class="social-button" target="_blank">
+                    <i class="fab fa-instagram fa-2x"></i>
+                </a>
+                <a href="https://tiktok.com/@okveazy" class="social-button" target="_blank">
+                    <i class="fab fa-tiktok fa-2x"></i>
+                </a>
+                <a href="https://github.com/vzdzt" class="social-button" target="_blank">
+                    <i class="fab fa-github fa-2x"></i>
+                </a>
+                <a href="catchcarti.html" class="social-button">
+                    <i class="fas fa-compact-disc fa-2x"></i>
+                </a>
             </div>
         </div>
-
-        <div class="quote-container">
-            <p class="quote-text" style="font-family: 'Space Grotesk', sans-serif; font-size: 1.2em;"></p>
-            <button class="button" onclick="getNewQuote()">New Quote</button>
-        </div>
-    </section>
+    </footer>
 
     <script>
         // Music toggle
@@ -1122,7 +1014,7 @@
                     positions[j] += supernova.velocities[j/3].x;
                     positions[j + 1] += supernova.velocities[j/3].y;
                     positions[j + 2] += supernova.velocities[j/3].z;
-                    const alpha = 1 - (supernova.age / supernova.maxAge);
+                    const alpha = 1 - (supnova.age / supernova.maxAge);
                     colors[j] *= alpha;
                     colors[j + 1] *= alpha;
                     colors[j + 2] *= alpha;
@@ -1158,18 +1050,10 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // Scroll function for horizontal scrolling
+        // Scroll function
         function scroll(elementId, amount) {
             const container = document.getElementById(elementId);
             container.scrollBy({ left: amount, behavior: 'smooth' });
-        }
-
-        // Content toggle
-        function showContent(contentType) {
-            const allContents = document.querySelectorAll('.content-details');
-            allContents.forEach(content => content.style.display = 'none');
-            const selectedContent = document.getElementById(`content-${contentType}`);
-            if (selectedContent) selectedContent.style.display = 'flex';
         }
 
         // GSAP animations
@@ -1184,24 +1068,11 @@
                 scrub: true
             }
         });
-        gsap.from('.glass-card', {
-            duration: 1.2,
-            y: 100,
-            opacity: 0,
-            rotation: 5,
-            stagger: 0.2,
-            ease: 'elastic.out(1, 0.75)',
-            scrollTrigger: {
-                trigger: '.grid',
-                start: 'top center+=100',
-                toggleActions: 'play none none reverse'
-            }
-        });
 
         // Quotes
         const quotes = [
             { text: "Music expresses that which cannot be put into words and that which cannot remain silent.", author: "Victor Hugo" },
-            // [Rest of your quotes array]
+            // Add more quotes as needed
         ];
         function getNewQuote() {
             const quoteTexts = document.querySelectorAll('.quote-text');
