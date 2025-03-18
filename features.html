@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicRx - Features</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+      body {
+        background: #0a0a0a !important;
+      }
+
+      .glass-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+        overflow: hidden;
+      }
+
+      .glass-card:hover {
+        transform: translateY(-10px) !important;
+        box-shadow: 0 15px 30px rgba(0, 247, 255, 0.3) !important;
+      }
+
+      .glass-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        transition: transform 0.5s ease;
+      }
+
+      .glass-card:hover img {
+        transform: scale(1.05);
+      }
+
+      .starfield-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .star {
+        position: absolute;
+        background-color: #fff;
+        border-radius: 50%;
+        animation: starTwinkle linear infinite;
+      }
+
+      @keyframes starTwinkle {
+        0% { opacity: 0; }
+        50% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+    </style>
+</head>
+<body>
+    <div id="cursor"></div>
+    <div id="cursor-blur"></div>
+    <canvas id="universe"></canvas>
+    <div class="starfield-background" id="starfield"></div>
+    <script>
+        // Create starfield background
+        function createStarfield() {
+            const starfield = document.getElementById('starfield');
+            if (!starfield) return;
+
+            const count = 200;
+
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+
+                // Random size
+                const size = Math.random() * 3;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+
+                // Random position
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+
+                // Random animation duration
+                const duration = Math.random() * 3 + 2;
+                star.style.animationDuration = duration + 's';
+
+                // Random delay
+                star.style.animationDelay = Math.random() * 5 + 's';
+
+                starfield.appendChild(star);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', createStarfield);
+    </script>
+    <nav>
+<div class="search-container">
+            <input type="text" id="reviewSearch" placeholder="Search reviews by artist..." class="search-input">
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="reviews.html" class="nav-link">Reviews</a></li>
+            <li><a href="news.html" class="nav-link">News</a></li>
+            <li><a href="opinions.html" class="nav-link">Opinions</a></li>
+            <li><a href="catchcarti.html" class="nav-link">Catch Carti</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1 class="glitch" data-text="FEATURES">FEATURES</h1>
+        <div class="grid">
+            <div class="glass-card" onclick="window.location.href='features-drake.html'">
+                <img src="drizzy.jpeg" alt="Drake featured artist image">
+                <h2>Drake</h2>
+                <p>Drake’s soulful, game-changing artistry—where clever bars fuse with lush hooks, turning hip-hop into a vivid, heart-pounding odyssey.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-kendrick.html'">
+                <img src="dot.jpeg" alt="Kendrick Lamar featured artist image">
+                <h2>Kendrick Lamar</h2>
+                <p>Kendrick’s fierce, poetic brilliance—where razor-sharp lyrics dance with deep beats, crafting hip-hop into a bold, thought-provoking masterpiece.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-frank.html'">
+                <img src="franko.jpg" alt="Frank Ocean featured artist image">
+                <h2>Frank Ocean</h2>
+                <p>TFrank Ocean’s dreamy, soul-baring genius—where silky vocals glide over lush soundscapes, spinning R&B into a tender, timeless reverie.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-billie.html'">
+                <img src="billie.jpg" alt="Billie Eilish featured artist image">
+                <h2>Billie Eilish</h2>
+                <p>Billie Eilish’s haunting, whisper-soft power—where eerie beats meet raw emotion, twisting pop into a dark, mesmerizing confession.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-weeknd.html'">
+                <img src="weeknd.jpeg" alt="The Weeknd featured artist image">
+                <h2>The Weeknd</h2>
+                <p>The Weeknd’s sultry, cinematic flair—where pulsing rhythms blend with aching falsettos, shaping R&B into a thrilling, neon-lit escape.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-tyler.html'">
+                <img src="tyler.jpeg" alt="Tyler, The Creator featured artist image">
+                <h2>Tyler, The Creator</h2>
+                <p>Tyler, The Creator’s wild, kaleidoscopic vision—where quirky beats clash with bold rhymes, morphing hip-hop into a vibrant, offbeat wonderland.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-travis.html'">
+                <img src="flame.jpeg" alt="Travis Scott featured artist image">
+                <h2>Travis Scott</h2>
+                <p>Travis Scott’s chaotic, electrified genius—where thumping bass meets hazy chants, twisting trap into a wild, adrenaline-soaked fever dream.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-ye.html'">
+                <img src="yeee.jpeg" alt="Ye (Kanye West) featured artist image">
+                <h2>Ye</h2>
+                <p>Kanye’s audacious, boundary-shattering brilliance—where daring beats fuse with raw verses, forging hip-hop into a fearless, visionary spectacle.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-nicki.html'">
+                <img src="nicki.jpeg" alt="Nicki Minaj featured artist image">
+                <h2>Nicki Minaj</h2>
+                <p>Nicki Minaj’s fierce, dazzling reign—where razor-sharp flows meet playful swagger, sculpting rap into a vibrant, unapologetic throne.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-nba.html'">
+                <img src="nba.jpeg" alt="NBA YoungBoy featured artist image">
+                <h2>NBA YoungBoy</h2>
+                <p>NBA YoungBoy’s gritty, soul-baring fire—where relentless flows collide with raw pain, carving rap into a fierce, street-born anthem.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-carti.html'">
+                <img src="carti.jpg" alt="Playboi Carti featured artist image">
+                <h2>Playboi Carti</h2>
+                <p>Playboi Carti’s reckless, hypnotic wave—where minimalist beats fuse with wild ad-libs, twisting trap into a surreal, high-energy haze.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-uzi.html'">
+                <img src="uzii.jpeg" alt="Lil Uzi Vert featured artist image">
+                <h2>Lil Uzi Vert</h2>
+                <p>Lil Uzi Vert’s vibrant, rebellious spark—where punchy flows meet cosmic beats, spinning rap into a bold, otherworldly thrill ride.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-lilpeep.html'">
+                <img src="lilpeep.jpeg" alt="Lil Peep featured artist image">
+                <h2>Lil Peep</h2>
+                <p>Lil Peep’s tender, anguished cry—where lo-fi beats blend with raw heartache, melding rap and emo into a haunting, soul-stirring echo.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-juicewrld.html'">
+                <img src="juice.jpeg" alt="Juice WRLD featured artist image">
+                <h2>Juice WRLD</h2>
+                <p>TJuice WRLD’s heartfelt, melodic storm—where quick-witted bars meet aching hooks, fusing rap and emo into a vivid, bittersweet surge.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-macmiller.html'">
+                <img src="mac.jpeg" alt="Mac Miller featured artist image">
+                <h2>Mac Miller</h2>
+                <p>Mac Miller’s warm, introspective glow—where jazzy beats mingle with honest rhymes, crafting hip-hop into a soulful, laid-back journey.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-50cent.html'">
+                <img src="50.jpeg" alt="50 Cent featured artist image">
+                <h2>50 Cent</h2>
+                <p>50 Cent’s gritty, commanding hustle—where hard-hitting beats meet street-smart bars, forging rap into a bold, unbreakable legacy.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-eminem.html'">
+                <img src="eminem.jpeg" alt="Eminem featured artist image">
+                <h2>Eminem</h2>
+                <p>Eminem’s fierce, razor-edged mastery—where lightning-fast rhymes clash with raw emotion, sculpting rap into a gripping, unfiltered saga.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-dojacat.html'">
+                <img src="doja.jpeg" alt="Doja Cat featured artist image">
+                <h2>Doja Cat</h2>
+                <p>Doja Cat’s playful, genre-blending magic—where quirky hooks meet slick beats, twisting pop and rap into a bold, infectious groove.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-chiefkeef.html'">
+                <img src="chief.jpeg" alt="Chief Keef featured artist image">
+                <h2>Chief Keef</h2>
+                <p>Chief Keef’s raw, relentless thunder—where booming bass meets icy flows, birthing drill into a gritty, untamed street symphony.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-beyonce.html'">
+                <img src="beyy.jpeg" alt="Beyoncé featured artist image">
+                <h2>Beyoncé</h2>
+                <p>Beyoncé’s radiant, powerhouse grace—where soulful belts soar over bold rhythms, molding pop and R&B into a fierce, majestic reign.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-thug.html'">
+                <img src="thug.jpg" alt="Young Thug featured artist image">
+                <h2>Young Thug</h2>
+                <p>Young Thug’s wild, melodic chaos—where unpredictable flows twist with vibrant beats, reshaping rap into a thrilling, genre-defying whirlwind.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-yeat.html'">
+                <img src="yeat.jpeg" alt="Yeat featured artist image">
+                <h2>Yeat</h2>
+                <p>Yeat’s futuristic, hypnotic pulse—where glitchy beats fuse with icy cadences, morphing rap into a sleek, otherworldly vibe.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-taylor.html'">
+                <img src="taylor.jpeg" alt="Taylor Swift featured artist image">
+                <h2>Taylor Swift</h2>
+                <p>Taylor Swift’s heartfelt, storytelling charm—where tender melodies weave with vivid lyrics, crafting pop into a warm, timeless embrace.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-ariana.html'">
+                <img src="ariana.jpeg" alt="Ariana Grande featured artist image">
+                <h2>Ariana Grande</h2>
+                <p>Ariana Grande’s soaring, sugary allure—where powerhouse vocals glide over glossy beats, spinning pop and R&B into a dazzling, irresistible rush.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-sabrina.html'">
+                <img src="sab.jpeg" alt="Sabrina Carpenter featured artist image">
+                <h2>Sabrina Carpenter</h2>
+                <p>Sabrina Carpenter’s bubbly, polished charm—where catchy hooks dance with sweet vocals, crafting pop into a bright, irresistible glow.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-kodak.html'">
+                <img src="kodak.jpeg" alt="Kodak Black featured artist image">
+                <h2>Kodak Black</h2>
+                <p>Kodak Black’s raw, Southern grit—where heavy beats meet drawling flows, carving rap into a bold, unfiltered street pulse.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-future.html'">
+                <img src="future.jpeg" alt="Future featured artist image">
+                <h2>Future</h2>
+                <p>Future’s syrupy, trap-lord reign—where booming beats meet slurred flows, crafting rap into a dark, hypnotic street empire.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-xxxtentacion.html'">
+                <img src="xxx.jpeg" alt="XXXTentacion featured artist image">
+                <h2>XXXTentacion</h2>
+                <p>XXXTentacion’s raw, chaotic soul—where jagged beats collide with piercing cries, blending rap and emo into a fierce, haunting storm.</p>
+            </div>
+
+            <div class="glass-card" onclick="window.location.href='features-jcole.html'">
+                <img src="jcole.jpeg" alt="J. Cole featured artist image">
+                <h2>J. Cole</h2>
+                <p>J. Cole’s grounded, lyrical fire—where soulful beats meet sharp storytelling, crafting hip-hop into a deep, relatable odyssey.</p>
+            </div>
+            
+            <div class="glass-card" onclick="window.location.href='features-kencarson.html'">
+                <img src="ken.jpeg" alt="Ken Carson featured artist image">
+                <h2>Ken Carson</h2>
+                <p>Ken Carson’s chaotic, futuristic edge—where glitchy beats fuse with reckless flows, twisting trap into a bold, neon-drenched haze.</p>
+            </div>
+            
+            <div class="glass-card" onclick="window.location.href='features-destroylonely.html'">
+                <img src="lone.jpeg" alt="Destroy Lonely featured artist image">
+                <h2>Destroy Lonely</h2>
+                <p>Destroy Lonely’s moody, melodic drift—where hazy beats blend with icy vocals, shaping trap into a sleek, introspective vibe.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        // Ensure all glass cards on this page have the correct behavior
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.glass-card').forEach(card => {
+                // Make sure the transform property can be animated for the hover effect
+                card.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+
+                // Add click functionality
+                card.addEventListener('click', function() {
+                    if (this.getAttribute('onclick')) {
+                        const href = this.getAttribute('onclick').replace("window.location.href='", "").replace("'", "");
+                        window.location.href = href;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
