@@ -75,11 +75,6 @@
             100% { transform: translate(0); text-shadow: 2px 2px var(--secondary), -2px -2px var(--accent); filter: hue-rotate(360deg); }
         }
 
-        @keyframes titlePulse {
-            from { transform: scale(1.1) rotate(2deg); filter: hue-rotate(0deg) brightness(1); }
-            to { transform: scale(1.15) rotate(-2deg); filter: hue-rotate(30deg) brightness(1.2); }
-        }
-
         .landing-subtitle {
             opacity: 0.8;
             text-transform: uppercase;
@@ -121,44 +116,6 @@
             60% { transform: translateX(-50%) scaleX(1); }
             80% { transform: translateX(-50%) scaleX(0.3); }
             100% { transform: translateX(-50%) scaleX(0); }
-        }
-
-        #loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: var(--dark);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s;
-        }
-
-        #loading-text {
-            color: var(--primary);
-            font-size: 2.5em;
-            text-align: center;
-            font-family: 'Syncopate', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            animation: glow 2s ease-in-out infinite;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        #loading-screen.fade-out {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 10px var(--primary); }
-            50% { text-shadow: 0 0 20px var(--primary), 0 0 30px var(--primary); }
         }
 
         #cursor {
@@ -532,6 +489,34 @@
             color: var(--primary);
         }
 
+        /* Underground Analysis styles */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        .trend-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .trend-table th,
+        .trend-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .trend-table th {
+            background: rgba(0, 247, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .trend-table tr:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5em; }
             #cursor, #cursor-blur { display: none; }
@@ -539,6 +524,7 @@
             .scroll-section { padding: 1rem; }
             .scroll-item { flex: 0 0 250px; min-width: 250px; }
             .footer-content { flex-direction: column; text-align: center; }
+            .trend-table { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -745,6 +731,44 @@
         </section>
     </div>
 
+    <!-- Underground Analysis Section -->
+    <div class="content-container">
+        <div id="content-trending">
+            <div class="glass-card">
+                <h2>Underground Analysis</h2>
+                <p>Dive deep into the underground scene with our latest discoveries and analyses.</p>
+                <div class="table-container">
+                    <table class="trend-table">
+                        <thead>
+                            <tr>
+                                <th>Artist</th>
+                                <th>Project</th>
+                                <th>Key Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Yeat</td>
+                                <td>2093</td>
+                                <td>Future-forward production meets cryptic lyricism</td>
+                            </tr>
+                            <tr>
+                                <td>Ken Carson</td>
+                                <td>A Great Chaos</td>
+                                <td>Evolution of rage beats with melodic undertones</td>
+                            </tr>
+                            <tr>
+                                <td>Destroy Lonely</td>
+                                <td>If Looks Could Kill</td>
+                                <td>Gothic trap aesthetics with experimental production</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-logo">
@@ -761,7 +785,7 @@
             </div>
             <div class="social-links">
                 <a href="https://twitter.com/36966_" class="social-button" target="_blank">
-                    <i class="fab fa-twitter fa-2x"></i>
+                    <i class="fab fa-x-twitter fa-2x"></i>
                 </a>
                 <a href="https://instagram.com/airveazy" class="social-button" target="_blank">
                     <i class="fab fa-instagram fa-2x"></i>
@@ -1014,7 +1038,7 @@
                     positions[j] += supernova.velocities[j/3].x;
                     positions[j + 1] += supernova.velocities[j/3].y;
                     positions[j + 2] += supernova.velocities[j/3].z;
-                    const alpha = 1 - (supnova.age / supernova.maxAge);
+                    const alpha = 1 - (supernova.age / supernova.maxAge);
                     colors[j] *= alpha;
                     colors[j + 1] *= alpha;
                     colors[j + 2] *= alpha;
