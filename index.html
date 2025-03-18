@@ -9,7 +9,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/ScrollTrigger.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
     <style>
         /* Enhanced styles with adjustments */
         :root {
@@ -53,11 +52,6 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 2rem;
-            transition: opacity 0.3s ease;
-        }
-
-        .sidebar:hover .sidebar-logo {
-            opacity: 1;
         }
 
         .sidebar-logo .musicrx-logo {
@@ -177,7 +171,7 @@
             width: calc(100% - 60px);
             padding: 2rem;
             overflow-y: auto;
-            transition: margin-left 0.3s ease;
+            transition: margin-left 0.3s ease, width 0.3s ease;
         }
 
         .sidebar:hover ~ .main-content {
@@ -224,7 +218,7 @@
             font-family: 'Syncopate', sans-serif;
             text-transform: uppercase;
             position: relative;
-            margin-top: 1rem;
+            margin-bottom: 3rem;
         }
 
         .heartbeat-line {
@@ -250,7 +244,7 @@
             100% { transform: translateX(-50%) scaleX(0); opacity: 0; }
         }
 
-        /* Quote Machine Enhancements */
+        /* Quote Machine */
         .quote-container {
             margin: 2rem 0;
             background: var(--glass);
@@ -303,7 +297,6 @@
         }
 
         .quote-content span:hover {
-            animation: quoteGlitch 0.3s infinite;
             color: var(--primary);
             text-shadow: 
                 2px 2px var(--secondary),
@@ -355,20 +348,25 @@
             flex: 0 0 220px;
             min-width: 220px;
             position: relative;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem;
             transition: all 0.3s ease;
+        }
+
+        .scroll-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 247, 255, 0.4);
         }
 
         .scroll-item img {
             width: 100%;
-            height: 220px;
+            height: 180px;
             object-fit: cover;
             border-radius: 8px;
             margin-bottom: 0.5rem;
-            transition: transform 0.3s ease;
-        }
-
-        .scroll-item:hover img {
-            transform: scale(1.05);
         }
 
         .scroll-item h3 {
@@ -384,7 +382,7 @@
             margin: 0;
         }
 
-        /* Share Buttons on Hover (Round) */
+        /* Share Buttons */
         .share-buttons {
             position: absolute;
             top: 10px;
@@ -480,101 +478,6 @@
             box-shadow: 0 0 20px var(--primary);
         }
 
-        /* Newsletter Signup */
-        .newsletter-section {
-            padding: 4rem 2rem;
-            background: rgba(0, 0, 0, 0.8);
-            text-align: center;
-            margin: 4rem 0;
-            border-top: 1px solid var(--primary);
-            border-bottom: 1px solid var(--primary);
-        }
-
-        .newsletter-section h2 {
-            color: var(--primary);
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .newsletter-section p {
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 2rem;
-        }
-
-        .newsletter-form {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .newsletter-form input {
-            padding: 0.8rem 1rem;
-            border: 1px solid var(--primary);
-            background: var(--glass);
-            color: white;
-            border-radius: 5px;
-            font-family: 'Space Grotesk', sans-serif;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        .newsletter-form input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .newsletter-form button {
-            background: var(--primary);
-            border: none;
-            color: var(--dark);
-            padding: 0.8rem 2rem;
-            border-radius: 5px;
-            font-family: 'Syncopate', sans-serif;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .newsletter-form button:hover {
-            background: var(--secondary);
-            box-shadow: 0 0 20px var(--secondary);
-        }
-
-        /* Popular Artists Section */
-        .popular-artists {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-        }
-
-        .artist-card {
-            flex: 1 1 120px;
-            text-align: center;
-        }
-
-        .artist-card img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 0.5rem;
-            transition: transform 0.3s ease;
-        }
-
-        .artist-card:hover img {
-            transform: scale(1.1);
-        }
-
-        .artist-card p {
-            color: white;
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .sidebar {
@@ -619,19 +522,6 @@
         <i class="fas fa-music"></i>
     </button>
 
-    <!-- Tip Machine -->
-    <div id="tipIcon" style="position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: var(--glass); border: 1px solid var(--primary); color: var(--primary); padding: 10px; border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 10px rgba(0, 247, 255, 0.3); animation: pulse-glow 2s infinite;">
-        <i class="fas fa-donate"></i>
-    </div>
-    <div id="tipPopup" style="position: fixed; bottom: 70px; right: 20px; z-index: 1000; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); border: 1px solid var(--primary); color: white; padding: 15px; border-radius: 10px; width: 250px; display: none; transform-origin: bottom right; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-        <h3 style="color: var(--primary); margin: 0 0 10px 0; font-family: 'Syncopate', sans-serif;">Support MusicRx</h3>
-        <p style="margin: 0 0 15px 0;">Help keep the vibes alive with a tip!</p>
-        <div style="display: flex; justify-content: space-between;">
-            <button class="button" onclick="window.location.href='shop.html'">Tip Options</button>
-            <button class="button" id="closeTipPopup" style="background: rgba(255, 0, 0, 0.2);">Close</button>
-        </div>
-    </div>
-
     <!-- Back to Top Button -->
     <button id="backToTop">
         <i class="fas fa-arrow-up"></i>
@@ -641,7 +531,7 @@
     <div id="cursor-blur"></div>
     <canvas id="universe"></canvas>
 
-    <!-- Sidebar (Compact and Hover-Expandable) -->
+    <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-logo">
             <div class="musicrx-logo">MusicRx</div>
@@ -675,7 +565,7 @@
             </p>
             <div class="quote-container">
                 <div class="quote-prompt">Click Me</div>
-                <p class="quote-text"></p>
+                <p class="quote-content">Music washes away from the soul the dust of everyday life. <span class="quote-author">- Berthold Auerbach</span></p>
             </div>
         </section>
 
@@ -689,27 +579,8 @@
                 </div>
             </div>
             <div class="scroll-container" id="trending-scroll">
-                <div class="scroll-item glass-card">
-                    <img src="iammusic.jpg" alt="I Am Music">
-                    <h3>I Am Music</h3>
-                    <p>Playboi Carti</p>
-                    <div class="share-buttons">
-                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out I Am Music by Playboi Carti on MusicRx!" target="_blank">
-                            <i class="fab fa-x-twitter"></i>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="sms:?body=Check out I Am Music by Playboi Carti on MusicRx! https://musicrx.com" target="_blank">
-                            <i class="fas fa-comment"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="scroll-item glass-card">
-                    <img src="eviljordan.jpg" alt="Evil Jordan">
+                <div class="scroll-item">
+                    <img src="https://via.placeholder.com/220x220" alt="Evil Jordan">
                     <h3>Evil Jordan</h3>
                     <p>Playboi Carti</p>
                     <div class="share-buttons">
@@ -727,8 +598,8 @@
                         </a>
                     </div>
                 </div>
-                <div class="scroll-item glass-card">
-                    <img src="thegiver.jpg" alt="The Giver">
+                <div class="scroll-item">
+                    <img src="https://via.placeholder.com/220x220" alt="The Giver">
                     <h3>The Giver</h3>
                     <p>Chappell Roan</p>
                     <div class="share-buttons">
@@ -746,8 +617,8 @@
                         </a>
                     </div>
                 </div>
-                <div class="scroll-item glass-card">
-                    <img src="darkthoughts.jpg" alt="Dark Thoughts">
+                <div class="scroll-item">
+                    <img src="https://via.placeholder.com/220x220" alt="Dark Thoughts">
                     <h3>Dark Thoughts</h3>
                     <p>Lil Tecca</p>
                     <div class="share-buttons">
@@ -767,308 +638,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- Latest Reviews -->
-        <section class="scroll-section" id="reviews">
-            <div class="section-header">
-                <h2 class="section-title">Latest Reviews</h2>
-                <div class="scroll-nav">
-                    <button class="scroll-button" onclick="scroll('reviews-scroll', -300)">←</button>
-                    <button class="scroll-button" onclick="scroll('reviews-scroll', 300)">→</button>
-                </div>
-            </div>
-            <div class="scroll-container" id="reviews-scroll">
-                <a href="review-slim.html" class="scroll-item glass-card">
-                    <img src="marshallmathers.jpeg" alt="The Slim Shady LP">
-                    <h3>The Slim Shady LP</h3>
-                    <p>Eminem's twisted debut that changed rap forever.</p>
-                    <div class="share-buttons">
-                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out the review of The Slim Shady LP on MusicRx!" target="_blank">
-                            <i class="fab fa-x-twitter"></i>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="sms:?body=Check out the review of The Slim Shady LP on MusicRx! https://musicrx.com" target="_blank">
-                            <i class="fas fa-comment"></i>
-                        </a>
-                    </div>
-                </a>
-                <a href="review-gkmc.html" class="scroll-item glass-card">
-                    <img src="gkmc3.jpeg" alt="good kid, m.A.A.d city">
-                    <h3>good kid, m.A.A.d city</h3>
-                    <p>Kendrick's cinematic masterpiece from Compton.</p>
-                    <div class="share-buttons">
-                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out the review of good kid, m.A.A.d city on MusicRx!" target="_blank">
-                            <i class="fab fa-x-twitter"></i>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="sms:?body=Check out the review of good kid, m.A.A.d city on MusicRx! https://musicrx.com" target="_blank">
-                            <i class="fas fa-comment"></i>
-                        </a>
-                    </div>
-                </a>
-                <a href="review-nwts.html" class="scroll-item glass-card">
-                    <img src="nwts.jpeg" alt="Nothing Was The Same">
-                    <h3>Nothing Was The Same</h3>
-                    <p>Drake's emotional journey through fame.</p>
-                    <div class="share-buttons">
-                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out the review of Nothing Was The Same on MusicRx!" target="_blank">
-                            <i class="fab fa-x-twitter"></i>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="sms:?body=Check out the review of Nothing Was The Same on MusicRx! https://musicrx.com" target="_blank">
-                            <i class="fas fa-comment"></i>
-                        </a>
-                    </div>
-                </a>
-                <a href="review-mbdtf.html" class="scroll-item glass-card">
-                    <img src="mbdtff.jpeg" alt="My Beautiful Dark Twisted Fantasy">
-                    <h3>MBDTF</h3>
-                    <p>Kanye's maximalist opus.</p>
-                    <div class="share-buttons">
-                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out the review of MBDTF on MusicRx!" target="_blank">
-                            <i class="fab fa-x-twitter"></i>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="sms:?body=Check out the review of MBDTF on MusicRx! https://musicrx.com" target="_blank">
-                            <i class="fas fa-comment"></i>
-                        </a>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- Popular Artists -->
-        <section class="scroll-section" id="popular-artists">
-            <div class="section-header">
-                <h2 class="section-title">Popular Artists</h2>
-            </div>
-            <div class="popular-artists">
-                <a href="features-kendrick.html" class="artist-card">
-                    <img src="kdot.jpeg" alt="Kendrick Lamar">
-                    <p>Kendrick Lamar</p>
-                    <div class="share-buttons">
-                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out Kendrick Lamar on MusicRx!" target="_blank">
-                            <i class="fab fa-x-twitter"></i>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="sms:?body=Check out Kendrick Lamar on MusicRx! https://musicrx.com" target="_blank">
-                            <i class="fas fa-comment"></i>
-                        </a>
-                    </div>
-                </a>
-                <a href="features-drake.html" class="artist-card">
-                    <img src="ap-drake2.jpeg" alt="Drake">
-                    <p>Drake</p>
-                    <div class="share-buttons">
-                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out Drake on MusicRx!" target="_blank">
-                            <i class="fab fa-x-twitter"></i>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="sms:?body=Check out Drake on MusicRx! https://musicrx.com" target="_blank">
-                            <i class="fas fa-comment"></i>
-                        </a>
-                    </div>
-                </a>
-                <a href="features-travis.html" class="artist-card">
-                    <img src="flame.jpeg" alt="Travis Scott">
-                    <p>Travis Scott</p>
-                    <div class="share-buttons">
-                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out Travis Scott on MusicRx!" target="_blank">
-                            <i class="fab fa-x-twitter"></i>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="sms:?body=Check out Travis Scott on MusicRx! https://musicrx.com" target="_blank">
-                            <i class="fas fa-comment"></i>
-                        </a>
-                    </div>
-                </a>
-                <a href="features-carti.html" class="artist-card">
-                    <img src="carti.jpg" alt="Playboi Carti">
-                    <p>Playboi Carti</p>
-                    <div class="share-buttons">
-                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out Playboi Carti on MusicRx!" target="_blank">
-                            <i class="fab fa-x-twitter"></i>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="sms:?body=Check out Playboi Carti on MusicRx! https://musicrx.com" target="_blank">
-                            <i class="fas fa-comment"></i>
-                        </a>
-                    </div>
-                </a>
-                <a href="features-ye.html" class="artist-card">
-                    <img src="yeee.jpeg" alt="Ye">
-                    <p>Ye</p>
-                    <div class="share-buttons">
-                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out Ye on MusicRx!" target="_blank">
-                            <i class="fab fa-x-twitter"></i>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="sms:?body=Check out Ye on MusicRx! https://musicrx.com" target="_blank">
-                            <i class="fas fa-comment"></i>
-                        </a>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- Latest News -->
-        <section class="scroll-section" id="news">
-            <div class="section-header">
-                <h2 class="section-title">Latest News</h2>
-                <div class="scroll-nav">
-                    <button class="scroll-button" onclick="scroll('news-scroll', -300)">←</button>
-                    <button class="scroll-button" onclick="scroll('news-scroll', 300)">→</button>
-                </div>
-            </div>
-            <div class="scroll-container" id="news-scroll">
-                <a href="news.html" class="scroll-item glass-card">
-                    <h3>Playboi Carti Drops "I Am Music"</h3>
-                    <p>March 15, 2025</p>
-                    <p>The wait is over—Carti's new 30-track project features Kendrick, Travis Scott, and The Weeknd.</p>
-                    <div class="share-buttons">
-                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Playboi Carti Drops I Am Music - Read more on MusicRx!" target="_blank">
-                            <i class="fab fa-x-twitter"></i>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="sms:?body=Playboi Carti Drops I Am Music - Read more on MusicRx! https://musicrx.com" target="_blank">
-                            <i class="fas fa-comment"></i>
-                        </a>
-                    </div>
-                </a>
-                <a href="news.html" class="scroll-item glass-card">
-                    <h3>Cole x Kendrick Album?</h3>
-                    <p>March 4, 2025</p>
-                    <p>Cryptic social media posts hint at collaboration.</p>
-                    <div class="share-buttons">
-                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Cole x Kendrick Album? Read more on MusicRx!" target="_blank">
-                            <i class="fab fa-x-twitter"></i>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="sms:?body=Cole x Kendrick Album? Read more on MusicRx! https://musicrx.com" target="_blank">
-                            <i class="fas fa-comment"></i>
-                        </a>
-                    </div>
-                </a>
-                <a href="news.html" class="scroll-item glass-card">
-                    <h3>Travis Scott Announces Album</h3>
-                    <p>February 25, 2025</p>
-                    <p>Summer 2025 release confirmed.</p>
-                    <div class="share-buttons">
-                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Travis Scott Announces Album - Read more on MusicRx!" target="_blank">
-                            <i class="fab fa-x-twitter"></i>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="sms:?body=Travis Scott Announces Album - Read more on MusicRx! https://musicrx.com" target="_blank">
-                            <i class="fas fa-comment"></i>
-                        </a>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- Newsletter Signup Section -->
-        <section class="newsletter-section">
-            <h2>Join the MusicRx Community</h2>
-            <p>Get the latest music news, reviews, and exclusive content delivered to your inbox.</p>
-            <form class="newsletter-form">
-                <input type="email" placeholder="Enter your email" required>
-                <button type="submit">Subscribe</button>
-            </form>
-        </section>
-
-        <footer class="site-footer">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <div class="logo-container">
-                        <div class="musicrx-logo">MusicRx</div>
-                        <div class="logo-symbol">
-                            <i class="fas fa-heartbeat"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <a href="about.html">About</a>
-                    <a href="contact.html">Contact</a>
-                </div>
-                <div class="social-links">
-                    <a href="https://twitter.com/36966_" class="social-button" target="_blank">
-                        <i class="fab fa-x-twitter fa-2x"></i>
-                    </a>
-                    <a href="https://instagram.com/airveazy" class="social-button" target="_blank">
-                        <i class="fab fa-instagram fa-2x"></i>
-                    </a>
-                    <a href="https://tiktok.com/@okveazy" class="social-button" target="_blank">
-                        <i class="fab fa-tiktok fa-2x"></i>
-                    </a>
-                    <a href="https://github.com/vzdzt" class="social-button" target="_blank">
-                        <i class="fab fa-github fa-2x"></i>
-                    </a>
-                    <a href="catchcarti.html" class="social-button">
-                        <i class="fas fa-compact-disc fa-2x"></i>
-                    </a>
-                </div>
-            </div>
-        </footer>
     </div>
 
     <script src="script.js"></script>
@@ -1078,58 +647,6 @@
             const container = document.getElementById(elementId);
             container.scrollBy({ left: amount, behavior: 'smooth' });
         }
-
-        // Tip Machine Logic
-        document.addEventListener('DOMContentLoaded', function() {
-            const tipIcon = document.getElementById('tipIcon');
-            const tipPopup = document.getElementById('tipPopup');
-            const closeTipPopup = document.getElementById('closeTipPopup');
-
-            if (tipIcon && tipPopup && closeTipPopup) {
-                tipIcon.addEventListener('click', function() {
-                    tipPopup.style.display = 'block';
-                    setTimeout(() => {
-                        tipPopup.style.transform = 'scale(1)';
-                        tipPopup.style.opacity = '1';
-                    }, 10);
-                    createCoinAnimation();
-                });
-
-                closeTipPopup.addEventListener('click', function() {
-                    tipPopup.style.transform = 'scale(0.8)';
-                    tipPopup.style.opacity = '0';
-                    setTimeout(() => {
-                        tipPopup.style.display = 'none';
-                    }, 300);
-                });
-            }
-
-            function createCoinAnimation() {
-                const coinCount = Math.floor(Math.random() * 6) + 5;
-                for (let i = 0; i < coinCount; i++) {
-                    const coin = document.createElement('div');
-                    coin.style.position = 'fixed';
-                    coin.style.bottom = '20px';
-                    coin.style.right = '20px';
-                    coin.style.width = '20px';
-                    coin.style.height = '20px';
-                    coin.style.border-radius = '50%';
-                    coin.style.background = 'linear-gradient(45deg, #FFD700, #FFA500)';
-                    coin.style.box-shadow = '0 0 10px rgba(255, 215, 0, 0.7)';
-                    coin.style.z-index = '1000';
-                    coin.style.transition = 'all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-                    document.body.appendChild(coin);
-
-                    const randomX = Math.random() * 100 - 50;
-                    const randomY = Math.random() * 150 + 50;
-                    setTimeout(() => {
-                        coin.style.transform = `translate(${randomX}px, -${randomY}px) rotate(${Math.random() * 360}deg)`;
-                        coin.style.opacity = '0';
-                    }, 10);
-                    setTimeout(() => document.body.removeChild(coin), 1000);
-                }
-            }
-        });
 
         // Quote Machine Click Handler
         document.addEventListener('DOMContentLoaded', () => {
@@ -1162,26 +679,6 @@
                 });
             });
         });
-
-        // Newsletter Form Submission (Placeholder)
-        document.addEventListener('DOMContentLoaded', () => {
-            const newsletterForm = document.querySelector('.newsletter-form');
-            if (newsletterForm) {
-                newsletterForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    alert('Thank you for subscribing to MusicRx!');
-                    newsletterForm.reset();
-                });
-            }
-        });
     </script>
-    <style>
-        /* Inline styles for tip machine animation */
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 10px rgba(0, 247, 255, 0.3); }
-            50% { box-shadow: 0 0 20px rgba(0, 247, 255, 0.5); }
-            100% { box-shadow: 0 0 10px rgba(0, 247, 255, 0.3); }
-        }
-    </style>
 </body>
 </html>
