@@ -66,6 +66,7 @@ body {
     align-items: center;
     justify-content: center;
     margin-bottom: 2rem;
+    gap: 0.5rem;
   }
 
   .sidebar-logo .musicrx-logo {
@@ -81,8 +82,7 @@ body {
     opacity: 1;
   }
 
-  .sidebar-logo .logo-symbol i {
-    color: #ff0000;
+  .sidebar-logo .logo-heart {
     animation: heartbeatPulse 1s infinite;
   }
 
@@ -179,11 +179,9 @@ body {
     font-size: 1.2rem;
     color: var(--primary);
     text-transform: uppercase;
-    animation: rgbGlow 3s infinite;
   }
 
-  .nav-logo .logo-symbol i {
-    color: #ff0000;
+  .nav-logo .logo-heart {
     animation: heartbeatPulse 1s infinite;
   }
 
@@ -228,19 +226,13 @@ body {
   }
 }
 
-@keyframes rgbGlow {
-  0% { text-shadow: 0 0 10px #ff0000; }
-  50% { text-shadow: 0 0 10px #0000ff; }
-  100% { text-shadow: 0 0 10px #ff0000; }
-}
-
 @keyframes heartbeatPulse {
-  0% { transform: scale(1); color: #ff0000; }
-  15% { transform: scale(1.3); color: #ff3333; }
-  30% { transform: scale(1); color: #ff0000; }
-  45% { transform: scale(1.2); color: #ff3333; }
-  60% { transform: scale(1); color: #ff0000; }
-  100% { transform: scale(1); color: #ff0000; }
+  0% { transform: scale(1); }
+  15% { transform: scale(1.3); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.2); }
+  60% { transform: scale(1); }
+  100% { transform: scale(1); }
 }
 
 .nav-links a {
@@ -276,12 +268,23 @@ body {
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* Scrolling Cards */
+/* Scroll Sections */
+.scroll-section {
+  margin: 2rem 0;
+}
+
+.section-title {
+  font-family: 'Syncopate', sans-serif;
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
 .scroll-container {
   overflow-x: auto;
   white-space: nowrap;
   padding: 1rem 0;
-  margin: 2rem 0;
   scrollbar-width: thin;
   scrollbar-color: var(--primary) rgba(255, 255, 255, 0.1);
   position: relative;
@@ -332,18 +335,12 @@ body {
   animation: rgbBorderPulse 3s linear infinite;
 }
 
-.glass-card:hover::after {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: 20px;
-  padding: 1px;
-  background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff0000);
-  background-size: 400% 400%;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: gradientMove 8s ease infinite;
+.glass-card h3 {
+  color: var(--primary);
+  font-family: 'Syncopate', sans-serif;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  text-align: center;
 }
 
 @keyframes rgbBorderPulse {
@@ -351,19 +348,6 @@ body {
   33% { border-color: #00ff00; }
   66% { border-color: #0000ff; }
   100% { border-color: #ff0000; }
-}
-
-@keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.glass-card h2 {
-  color: var(--primary);
-  font-family: 'Syncopate', sans-serif;
-  font-size: 1.2rem;
-  margin-top: 1rem;
 }
 
 .scroll-controls {
@@ -421,7 +405,6 @@ body {
   font-size: 1.5rem;
   color: var(--primary);
   text-transform: uppercase;
-  animation: rgbGlow 3s infinite;
 }
 
 .footer-links a {
