@@ -29,7 +29,7 @@
             overflow-x: hidden;
         }
 
-        /* Sidebar (Compact and Adjusted) */
+        /* Sidebar (Keeping Current Setup) */
         .sidebar {
             width: 60px;
             background: rgba(0, 0, 0, 0.9);
@@ -70,6 +70,12 @@
         .sidebar-logo .logo-symbol {
             color: var(--primary);
             font-size: 1.2rem;
+            animation: pulse-heart 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-heart {
+            0%, 100% { color: var(--primary); transform: scale(1); }
+            50% { color: red; transform: scale(1.2); }
         }
 
         .sidebar-nav ul {
@@ -478,6 +484,69 @@
             box-shadow: 0 0 20px var(--primary);
         }
 
+        /* Newsletter Signup */
+        .newsletter-section {
+            padding: 4rem 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            text-align: center;
+            margin: 4rem 0;
+            border-top: 1px solid var(--primary);
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .newsletter-section h2 {
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter-section p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--primary);
+            background: var(--glass);
+            color: white;
+            border-radius: 5px;
+            font-family: 'Space Grotesk', sans-serif;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .newsletter-form button {
+            background: var(--primary);
+            border: none;
+            color: var(--dark);
+            padding: 0.8rem 2rem;
+            border-radius: 5px;
+            font-family: 'Syncopate', sans-serif;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background: var(--secondary);
+            box-shadow: 0 0 20px var(--secondary);
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .sidebar {
@@ -531,7 +600,7 @@
     <div id="cursor-blur"></div>
     <canvas id="universe"></canvas>
 
-    <!-- Sidebar -->
+    <!-- Sidebar (Updated with New Links) -->
     <div class="sidebar">
         <div class="sidebar-logo">
             <div class="musicrx-logo">MusicRx</div>
@@ -547,6 +616,10 @@
                 <li><a href="news.html"><i class="fas fa-newspaper"></i> <span>News</span></a></li>
                 <li><a href="opinions.html"><i class="fas fa-comment"></i> <span>Opinions</span></a></li>
                 <li><a href="catchcarti.html"><i class="fas fa-compact-disc"></i> <span>Catch Carti</span></a></li>
+                <li><a href="shop.html"><i class="fas fa-shopping-cart"></i> <span>Shop</span></a></li>
+                <li><a href="tip.html"><i class="fas fa-donate"></i> <span>Tip</span></a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> <span>About</span></a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> <span>Contact</span></a></li>
             </ul>
         </nav>
         <div class="sidebar-actions">
@@ -638,6 +711,296 @@
                 </div>
             </div>
         </section>
+
+        <!-- Featured Artists -->
+        <section class="scroll-section" id="featured-artists">
+            <div class="section-header">
+                <h2 class="section-title">Featured Artists</h2>
+                <div class="scroll-nav">
+                    <button class="scroll-button" onclick="scroll('featured-artists-scroll', -300)">←</button>
+                    <button class="scroll-button" onclick="scroll('featured-artists-scroll', 300)">→</button>
+                </div>
+            </div>
+            <div class="scroll-container" id="featured-artists-scroll">
+                <div class="scroll-item">
+                    <img src="https://via.placeholder.com/220x220" alt="Kendrick Lamar">
+                    <h3>Kendrick Lamar</h3>
+                    <p>Hip-Hop Legend</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out Kendrick Lamar on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out Kendrick Lamar on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="scroll-item">
+                    <img src="https://via.placeholder.com/220x220" alt="Drake">
+                    <h3>Drake</h3>
+                    <p>Chart-Topping Star</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out Drake on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out Drake on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="scroll-item">
+                    <img src="https://via.placeholder.com/220x220" alt="Travis Scott">
+                    <h3>Travis Scott</h3>
+                    <p>Rap Innovator</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out Travis Scott on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out Travis Scott on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Album Reviews -->
+        <section class="scroll-section" id="album-reviews">
+            <div class="section-header">
+                <h2 class="section-title">Album Reviews</h2>
+                <div class="scroll-nav">
+                    <button class="scroll-button" onclick="scroll('album-reviews-scroll', -300)">←</button>
+                    <button class="scroll-button" onclick="scroll('album-reviews-scroll', 300)">→</button>
+                </div>
+            </div>
+            <div class="scroll-container" id="album-reviews-scroll">
+                <div class="scroll-item">
+                    <img src="https://via.placeholder.com/220x220" alt="The Slim Shady LP">
+                    <h3>The Slim Shady LP</h3>
+                    <p>Eminem</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out the review of The Slim Shady LP on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out the review of The Slim Shady LP on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="scroll-item">
+                    <img src="https://via.placeholder.com/220x220" alt="good kid, m.A.A.d city">
+                    <h3>good kid, m.A.A.d city</h3>
+                    <p>Kendrick Lamar</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out the review of good kid, m.A.A.d city on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out the review of good kid, m.A.A.d city on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="scroll-item">
+                    <img src="https://via.placeholder.com/220x220" alt="Nothing Was The Same">
+                    <h3>Nothing Was The Same</h3>
+                    <p>Drake</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out the review of Nothing Was The Same on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out the review of Nothing Was The Same on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Opinions -->
+        <section class="scroll-section" id="opinions">
+            <div class="section-header">
+                <h2 class="section-title">Opinions</h2>
+                <div class="scroll-nav">
+                    <button class="scroll-button" onclick="scroll('opinions-scroll', -300)">←</button>
+                    <button class="scroll-button" onclick="scroll('opinions-scroll', 300)">→</button>
+                </div>
+            </div>
+            <div class="scroll-container" id="opinions-scroll">
+                <div class="scroll-item">
+                    <img src="https://via.placeholder.com/220x220" alt="Is Trap Dead?">
+                    <h3>Is Trap Dead?</h3>
+                    <p>Exploring the evolution of trap music in 2025.</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Is Trap Dead? Read the opinion on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Is Trap Dead? Read the opinion on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="scroll-item">
+                    <img src="https://via.placeholder.com/220x220" alt="Streaming Killed Albums">
+                    <h3>Streaming Killed Albums</h3>
+                    <p>Why singles dominate the music industry.</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Streaming Killed Albums - Read the opinion on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Streaming Killed Albums - Read the opinion on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="scroll-item">
+                    <img src="https://via.placeholder.com/220x220" alt="AI in Music">
+                    <h3>AI in Music</h3>
+                    <p>Is artificial intelligence the future of creativity?</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=AI in Music - Read the opinion on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=AI in Music - Read the opinion on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- News -->
+        <section class="scroll-section" id="news">
+            <div class="section-header">
+                <h2 class="section-title">News</h2>
+                <div class="scroll-nav">
+                    <button class="scroll-button" onclick="scroll('news-scroll', -300)">←</button>
+                    <button class="scroll-button" onclick="scroll('news-scroll', 300)">→</button>
+                </div>
+            </div>
+            <div class="scroll-container" id="news-scroll">
+                <div class="scroll-item">
+                    <img src="https://via.placeholder.com/220x220" alt="Playboi Carti News">
+                    <h3>Playboi Carti Drops "I Am Music"</h3>
+                    <p>March 15, 2025</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Playboi Carti Drops I Am Music - Read more on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Playboi Carti Drops I Am Music - Read more on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="scroll-item">
+                    <img src="https://via.placeholder.com/220x220" alt="Cole x Kendrick">
+                    <h3>Cole x Kendrick Album?</h3>
+                    <p>March 4, 2025</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Cole x Kendrick Album? Read more on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Cole x Kendrick Album? Read more on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="scroll-item">
+                    <img src="https://via.placeholder.com/220x220" alt="Travis Scott News">
+                    <h3>Travis Scott Announces Album</h3>
+                    <p>February 25, 2025</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Travis Scott Announces Album - Read more on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Travis Scott Announces Album - Read more on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Signup Section -->
+        <section class="newsletter-section">
+            <h2>Join the MusicRx Community</h2>
+            <p>Get the latest music news, reviews, and exclusive content delivered to your inbox.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </section>
     </div>
 
     <script src="script.js"></script>
@@ -678,6 +1041,18 @@
                     behavior: 'smooth'
                 });
             });
+        });
+
+        // Newsletter Form Submission (Placeholder)
+        document.addEventListener('DOMContentLoaded', () => {
+            const newsletterForm = document.querySelector('.newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    alert('Thank you for subscribing to MusicRx!');
+                    newsletterForm.reset();
+                });
+            }
         });
     </script>
 </body>
