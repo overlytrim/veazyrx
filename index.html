@@ -9,8 +9,159 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/ScrollTrigger.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
     <style>
+        /* Root variables */
+        :root {
+            --primary: #00f7ff;
+            --secondary: #ff00f7;
+            --accent: #7B68EE;
+            --dark: #0a0a0a;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--dark);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, .nav-links a {
+            font-family: 'Syncopate', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .musicrx-logo {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .logo-symbol {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 60px;
+        }
+
+        .glitch {
+            position: relative;
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--primary);
+            text-shadow: 
+                0 0 10px var(--primary),
+                0 0 20px var(--primary),
+                0 0 40px var(--primary);
+        }
+
+        .glitch::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary) 0%, transparent 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: drip 2s infinite;
+            transform-origin: top;
+        }
+
+        @keyframes drip {
+            0% { transform: scaleY(0); filter: blur(0); opacity: 1; }
+            100% { transform: scaleY(4); filter: blur(2px); opacity: 0; }
+        }
+
+        .heartbeat-text {
+            position: relative;
+            font-size: 1rem;
+            white-space: nowrap;
+            letter-spacing: 0.2em;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .heartbeat-line {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            animation: heartMonitor 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartMonitor {
+            0% { transform: translateX(-50%) scaleX(0); }
+            20% { transform: translateX(-50%) scaleX(0.3); }
+            40% { transform: translateX(-50%) scaleX(1); }
+            43% { transform: translateX(-50%) scaleX(0.6); }
+            46% { transform: translateX(-50%) scaleX(1.4); }
+            50% { transform: translateX(-50%) scaleX(0.2); }
+            60% { transform: translateX(-50%) scaleX(1); }
+            80% { transform: translateX(-50%) scaleX(0.3); }
+            100% { transform: translateX(-50%) scaleX(0); }
+        }
+
+        /* Scroll Sections */
         .scroll-section {
             padding: 2rem;
             margin: 2rem 0;
@@ -106,19 +257,251 @@
             margin: 0 auto;
         }
 
-        @media (max-width: 768px) {
-            .scroll-section {
-                padding: 1rem;
-            }
+        /* Glass Card */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
 
-            .scroll-item {
-                flex: 0 0 250px;
-                min-width: 250px;
-            }
+        /* Underground Analysis */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        .trend-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .trend-table th,
+        .trend-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .trend-table th {
+            background: rgba(0, 247, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .trend-table tr:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Footer */
+        .site-footer {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-logo .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-button {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-button:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 247, 255, 0.2);
+        }
+
+        /* Music Toggle and Tip Machine */
+        #musicToggle {
+            position: fixed;
+            bottom: 20px;
+            right: 70px;
+            z-index: 1001;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #musicToggle:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        #tipIcon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 10px rgba(0, 247, 255, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(0, 247, 255, 0.5); }
+            100% { box-shadow: 0 0 10px rgba(0, 247, 255, 0.3); }
+        }
+
+        #tipPopup {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--primary);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            width: 250px;
+            display: none;
+            transform-origin: bottom right;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Quote Machine */
+        .quote-container {
+            margin: 2rem auto;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            max-width: 800px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .quote-container:hover {
+            transform: translateY(-15px) scale(1.05);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--primary);
+            box-shadow: 
+                0 0 0 2px var(--primary),
+                0 0 30px rgba(0, 247, 255, 0.4);
+        }
+
+        .quote-content span {
+            display: inline-block;
+            transition: all 0.25s ease;
+        }
+
+        .quote-content span:hover {
+            animation: quoteGlitch 0.3s infinite;
+            color: var(--primary);
+            text-shadow: 
+                2px 2px var(--secondary),
+                -2px -2px var(--accent);
+            transform: translate(2px, -2px);
+        }
+
+        @keyframes quoteGlitch {
+            0% { transform: translate(0); text-shadow: 2px 2px var(--secondary), -2px -2px var(--accent); }
+            25% { transform: translate(-2px, 2px); text-shadow: -2px -2px var(--secondary), 2px 2px var(--accent); filter: hue-rotate(90deg); }
+            50% { transform: translate(2px, -2px); text-shadow: 2px -2px var(--secondary), -2px 2px var(--accent); filter: hue-rotate(180deg); }
+            75% { transform: translate(-2px, -2px); text-shadow: -2px 2px var(--secondary), 2px -2px var(--accent); filter: hue-rotate(270deg); }
+            100% { transform: translate(0); text-shadow: 2px 2px var(--secondary), -2px -2px var(--accent); filter: hue-rotate(360deg); }
+        }
+
+        .quote-author {
+            margin-top: 1rem;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .scroll-section { padding: 1rem; }
+            .scroll-item { flex: 0 0 250px; min-width: 250px; }
+            .footer-content { flex-direction: column; text-align: center; }
+            .quote-container { padding: 1rem; }
         }
     </style>
 </head>
 <body>
+    <!-- Music Toggle -->
+    <audio id="bgMusic" loop style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+        <source src="https://od.lk/s/MzhfMjg2MDQ2MDJf/veazy%20x%20dpbeats.mp3" type="audio/mpeg">
+    </audio>
+    <button id="musicToggle">
+        <i class="fas fa-music"></i>
+    </button>
+
+    <!-- Tip Machine -->
+    <div id="tipIcon">
+        <i class="fas fa-donate"></i>
+    </div>
+    <div id="tipPopup">
+        <h3 style="color: var(--primary); margin: 0 0 10px 0; font-family: 'Syncopate', sans-serif;">Support MusicRx</h3>
+        <p style="margin: 0 0 15px 0;">Help keep the vibes alive with a tip!</p>
+        <div style="display: flex; justify-content: space-between;">
+            <button class="button" style="margin: 0; padding: 8px 16px; font-size: 0.9em; background: var(--glass); border: 1px solid var(--primary); color: var(--primary); border-radius: 4px; cursor: pointer;" onclick="window.location.href='shop.html'">Tip Options</button>
+            <button class="button" id="closeTipPopup" style="margin: 0; padding: 8px 16px; font-size: 0.9em; background: rgba(255, 0, 0, 0.2); border: 1px solid var(--primary); color: var(--primary); border-radius: 4px; cursor: pointer;">Close</button>
+        </div>
+    </div>
+
     <div id="cursor"></div>
     <div id="cursor-blur"></div>
     <canvas id="universe"></canvas>
@@ -146,6 +529,10 @@
             MUSIC IS MY THERAPY
             <span class="heartbeat-line"></span>
         </p>
+        <!-- Quote Machine -->
+        <div class="quote-container">
+            <p class="quote-text" style="font-family: 'Space Grotesk', sans-serif;"></p>
+        </div>
     </section>
 
     <div class="content-container">
@@ -349,20 +736,18 @@
                 </a>
             </div>
         </div>
-
-           <div class="quote-container" style="margin: 4rem auto; background: rgba(0, 0, 0, 0.3); width: 100%; max-width: 100%;">
-            <p class="quote-text" style="font-family: 'Space Grotesk', sans-serif; font-size: 1.2em;"></p>
-            <button class="button" onclick="getNewQuote()" style="margin: 1rem auto; padding: 0.5rem 1rem; font-size: 0.9em;">New Quote</button>
-        </div>
-    </div>
-
-
+    </footer>
 
     <script>
-        // Initialize music toggle
+        // Scroll function
+        function scroll(elementId, amount) {
+            const container = document.getElementById(elementId);
+            container.scrollBy({ left: amount, behavior: 'smooth' });
+        }
+
+        // Music Toggle
         const bgMusic = document.getElementById('bgMusic');
         const musicToggle = document.getElementById('musicToggle');
-
         if (bgMusic && musicToggle) {
             bgMusic.volume = 0.5;
             musicToggle.addEventListener('click', () => {
@@ -376,435 +761,64 @@
             });
         }
 
-        function showContent(contentType) {
-            const allContents = document.querySelectorAll('.content-details');
-            allContents.forEach(content => {
-                content.style.display = 'none';
-            });
-
-            const selectedContent = document.getElementById(`content-${contentType}`);
-            if (selectedContent) {
-                selectedContent.style.display = 'block';
-            }
-        }
-
-        // Initialize preloader
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            let width = 0;
-            const interval = setInterval(() => {
-                width += 2;
-                const progressBar = document.getElementById('progress-bar');
-                if (progressBar) {
-                    progressBar.style.width = width + '%';
-                }
-                if (width >= 100) {
-                    clearInterval(interval);
-                    if (preloader) {
-                        preloader.style.opacity = '0';
-                        setTimeout(() => {
-                            preloader.style.display = 'none';
-                        }, 500);
-                    }
-                }
-            }, 20);
-        });
-
-        // Landing page handler
-        document.getElementById('landing-page').addEventListener('click', (event) => {
-            const landingPage = document.getElementById('landing-page');
-            landingPage.classList.add('fade-out');
-
-            // Create massive supernova at click position
-            const rect = renderer.domElement.getBoundingClientRect();
-            const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-            const vector = new THREE.Vector3(x * 1000, y * 1000, 0);
-
-            const supernova = createSupernova(vector.x, vector.y, vector.z);
-            supernova.points.scale.multiplyScalar(5); // Make it 5 times bigger
-            supernovas.push({ 
-                ...supernova, 
-                age: 0,
-                maxAge: 150 // Make it last longer
-            });
-        });
-
-        // Custom cursor
-        const cursor = document.getElementById('cursor');
-        const cursorBlur = document.getElementById('cursor-blur');
-
-        let cursorX = 0, cursorY = 0;
-        document.addEventListener('mousemove', (e) => {
-            cursorX = e.clientX;
-            cursorY = e.clientY;
-        });
-
-        function updateCursor() {
-            requestAnimationFrame(updateCursor);
-            cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-            cursorBlur.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-        }
-        updateCursor();
-
-        // Three.js background
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-        // Supernova effect
-        function createSupernova(x, y, z) {
-            const particles = new THREE.BufferGeometry();
-            const particleCount = 5000;
-            const positions = new Float32Array(particleCount * 3);
-            const colors = new Float32Array(particleCount * 3);
-            const velocities = [];
-
-            for (let i = 0; i < particleCount; i++) {
-                const theta = Math.random() * Math.PI * 2;
-                const phi = Math.random() * Math.PI * 2;
-                const radius = Math.random() * 5;
-                const velocity = Math.random() * 30 + 20;
-
-                positions[i * 3] = x + Math.sin(theta) * Math.cos(phi) * radius;
-                positions[i * 3 + 1] = y + Math.sin(theta) * Math.sin(phi) * radius;
-                positions[i * 3 + 2] = z + Math.cos(theta) * radius;
-
-                velocities.push({
-                    x: velocity * Math.sin(theta) * Math.cos(phi),
-                    y: velocity * Math.sin(theta) * Math.sin(phi),
-                    z: velocity * Math.cos(theta)
+        // Tip Machine
+        document.addEventListener('DOMContentLoaded', function() {
+            const tipIcon = document.getElementById('tipIcon');
+            const tipPopup = document.getElementById('tipPopup');
+            const closeTipPopup = document.getElementById('closeTipPopup');
+            
+            if (tipIcon && tipPopup && closeTipPopup) {
+                tipIcon.addEventListener('click', function() {
+                    tipPopup.style.display = 'block';
+                    setTimeout(() => {
+                        tipPopup.style.transform = 'scale(1)';
+                        tipPopup.style.opacity = '1';
+                    }, 10);
+                    createCoinAnimation();
                 });
-
-                colors[i * 3] = 1;  // Red
-                colors[i * 3 + 1] = Math.random() * 0.5 + 0.5;  // Yellow/Orange
-                colors[i * 3 + 2] = Math.random() * 0.2;  // Slight blue
-            }
-
-            particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-            const material = new THREE.PointsMaterial({
-                size: 8,
-                vertexColors: true,
-                transparent: true,
-                opacity: 1,
-                sizeAttenuation: true,
-                blending: THREE.AdditiveBlending,
-                depthWrite: false
-            });
-
-            const points = new THREE.Points(particles, material);
-            scene.add(points);
-
-            return { points, velocities };
-        }
-        const renderer = new THREE.WebGLRenderer({ 
-            canvas: document.getElementById('universe'), 
-            alpha: true,
-            antialias: true 
-        });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-
-        const geometry = new THREE.BufferGeometry();
-        const vertices = [];
-        const sizes = [];
-        const colors = [];
-
-        for (let i = 0; i < 15000; i++) {
-            vertices.push(
-                Math.random() * 2000 - 1000,
-                Math.random() * 2000 - 1000,
-                Math.random() * 2000 - 1000
-            );
-        }
-
-        function playRandomSound() {
-            const sounds = [
-                document.getElementById('hover-sound-1'),
-                document.getElementById('hover-sound-2'),
-                document.getElementById('hover-sound-3')
-            ];
-            const sound = sounds[Math.floor(Math.random() * sounds.length)];
-            sound.currentTime = 0;
-            sound.volume = 0.2;
-            sound.play();
-        }
-
-        // Add hover sound effects to all interactive elements
-        document.querySelectorAll('.nav-links a, .social-button, .glass-card, .button').forEach(element => {
-            element.addEventListener('mouseenter', playRandomSound);
-        });
-
-        // Three.js setup
-        const scene2 = new THREE.Scene(); // Created a new scene
-        const camera2 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // Created a new camera
-        const renderer2 = new THREE.WebGLRenderer({ 
-            canvas: document.getElementById('universe'), 
-            alpha: true,
-            antialias: true 
-        }); //Reused the same renderer, this was the source of the error
-
-        // Initialize geometry
-        const geometry2 = new THREE.BufferGeometry(); // Created a new geometry
-        const vertices2 = []; // Created a new vertices array
-        const sizes2 = []; // Created a new sizes array
-        const colors2 = []; // Created a new colors array
-
-        for (let i = 0; i < 15000; i++) {
-            vertices2.push(
-                Math.random() * 2000 - 1000,
-                Math.random() * 2000 - 1000,
-                Math.random() * 2000 - 1000
-            );
-            const color = new THREE.Color();
-            color.setHSL(Math.random(), 0.8, 0.8);
-            colors2.push(color.r, color.g, color.b);
-            sizes2.push(Math.random() * 2);
-        }
-        geometry2.setAttribute('position', new THREE.Float32BufferAttribute(vertices2, 3));
-        geometry2.setAttribute('color', new THREE.Float32BufferAttribute(colors2, 3));
-        geometry2.setAttribute('size', new THREE.Float32BufferAttribute(sizes2, 1));
-
-        const material2 = new THREE.PointsMaterial({
-            size: 1,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.8
-        });
-
-        const points2 = new THREE.Points(geometry2, material2); // Created a new points object
-        scene2.add(points2); // Added the points to the new scene
-
-        camera2.position.z = 1000;
-
-        let mouseX = 0, mouseY = 0;
-        document.addEventListener('mousemove', (event) => {
-            mouseX = (event.clientX - window.innerWidth / 2) * 0.001;
-            mouseY = (event.clientY - window.innerHeight / 2) * 0.001;
-        });
-
-        // Comet effect
-        class Comet {
-            constructor() {
-                this.position = new THREE.Vector3(
-                    Math.random() * 2000 - 1000,
-                    Math.random() * 2000 - 1000,
-                    Math.random() * 2000 - 1000
-                );
-                this.velocity = new THREE.Vector3(
-                    (Math.random() - 0.5) * 10,
-                    (Math.random() - 0.5) * 10,
-                    (Math.random() - 0.5) * 10
-                );
-                this.trail = [];
-                this.trailLength = 20;
-
-                const geometry = new THREE.SphereGeometry(2, 8, 8);
-                const material = new THREE.MeshBasicMaterial({
-                    color: new THREE.Color(0x00f7ff),
-                    transparent: true,
-                    opacity: 0.8
+                
+                closeTipPopup.addEventListener('click', function() {
+                    tipPopup.style.transform = 'scale(0.8)';
+                    tipPopup.style.opacity = '0';
+                    setTimeout(() => {
+                        tipPopup.style.display = 'none';
+                    }, 300);
                 });
-                this.mesh = new THREE.Mesh(geometry, material);
-                this.mesh.position.copy(this.position);
-                scene2.add(this.mesh); // Added mesh to the new scene
             }
-
-            update() {
-                this.position.add(this.velocity);
-                this.mesh.position.copy(this.position);
-
-                // Add current position to trail
-                this.trail.push(this.position.clone());
-                if (this.trail.length > this.trailLength) {
-                    this.trail.shift();
+            
+            function createCoinAnimation() {
+                const coinCount = Math.floor(Math.random() * 6) + 5;
+                for (let i = 0; i < coinCount; i++) {
+                    const coin = document.createElement('div');
+                    coin.style.position = 'fixed';
+                    coin.style.bottom = '20px';
+                    coin.style.right = '20px';
+                    coin.style.width = '20px';
+                    coin.style.height = '20px';
+                    coin.style.borderRadius = '50%';
+                    coin.style.background = 'linear-gradient(45deg, #FFD700, #FFA500)';
+                    coin.style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.7)';
+                    coin.style.zIndex = '1000';
+                    coin.style.transition = 'all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    document.body.appendChild(coin);
+                    
+                    const randomX = Math.random() * 100 - 50;
+                    const randomY = Math.random() * 150 + 50;
+                    setTimeout(() => {
+                        coin.style.transform = `translate(${randomX}px, -${randomY}px) rotate(${Math.random() * 360}deg)`;
+                        coin.style.opacity = '0';
+                    }, 10);
+                    setTimeout(() => document.body.removeChild(coin), 1000);
                 }
-
-                // Reset if out of bounds
-                if (Math.abs(this.position.x) > 1000 || 
-                    Math.abs(this.position.y) > 1000 || 
-                    Math.abs(this.position.z) > 1000) {
-                    this.position.set(
-                        Math.random() * 2000 - 1000,
-                        Math.random() * 2000 - 1000,
-                        Math.random() * 2000 - 1000
-                    );
-                    this.trail = [];
-                }
-            }
-        }
-
-        const comets = Array(5).fill(null).map(() => new Comet());
-
-        function animate() {
-            requestAnimationFrame(animate);
-            comets.forEach(comet => comet.update());
-
-            points2.rotation.x += 0.0002; // Changed points to points2
-            points2.rotation.y += 0.0003; // Changed points to points2
-
-            // Mouse-based rotation
-            points2.rotation.x += (mouseY - points2.rotation.x) * 0.05; // Changed points to points2
-            points2.rotation.y += (mouseX - points2.rotation.y) * 0.05; // Changed points to points2
-
-            // Pulsing effect with more variation
-            const time = Date.now() * 0.001;
-            points2.scale.x = points2.scale.y = points2.scale.z = Math.sin(time) * 0.15 + 1; // Changed points to points2
-
-            // Color shift effect
-            const positions = points2.geometry.attributes.position.array; // Changed points to points2
-            const colors = points2.geometry.attributes.color.array; // Changed points to points2
-            for(let i = 0; i < colors.length; i += 3) {
-                colors[i] = Math.sin(time + positions[i] * 0.001) * 0.5 + 0.5;
-                colors[i + 1] = Math.cos(time + positions[i + 1] * 0.001) * 0.5 + 0.5;
-                colors[i + 2] = Math.sin(time + positions[i + 2] * 0.002) * 0.5 + 0.5;
-            }
-            points2.geometry.attributes.color.needsUpdate = true; // Changed points to points2
-
-            updateSupernovas();
-            renderer2.render(scene2, camera2); // Changed renderer and scene
-        }
-
-        // Track supernovas
-        const supernovas = [];
-
-        // Click handler for creating supernovas
-        document.getElementById('universe').addEventListener('click', (event) => {
-            const rect = renderer2.domElement.getBoundingClientRect(); // Changed renderer
-            const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-            const vector = new THREE.Vector3(x * 1000, y * 1000, 0);
-
-            const supernova = createSupernova(vector.x, vector.y, vector.z);
-            supernovas.push({ 
-                ...supernova, 
-                age: 0,
-                maxAge: 100 
-            });
-        });
-
-        function updateSupernovas() {
-            for (let i = supernovas.length - 1; i >= 0; i--) {
-                const supernova = supernovas[i];
-                const positions = supernova.points.geometry.attributes.position.array;
-                const colors = supernova.points.geometry.attributes.color.array;
-
-                for (let j = 0; j < positions.length; j += 3) {
-                    positions[j] += supernova.velocities[j/3].x;
-                    positions[j + 1] += supernova.velocities[j/3].y;
-                    positions[j + 2] += supernova.velocities[j/3].z;
-
-                    const alpha = 1 - (supernova.age / supernova.maxAge);
-                    colors[j] *= alpha;
-                    colors[j + 1] *= alpha;
-                    colors[j + 2] *= alpha;
-                }
-
-                supernova.points.geometry.attributes.position.needsUpdate = true;
-                supernova.points.geometry.attributes.color.needsUpdate = true;
-                supernova.points.material.opacity = 1 - (supernova.age / supernova.maxAge);
-
-                supernova.age++;
-
-                if (supernova.age >= supernova.maxAge) {
-                    scene2.remove(supernova.points); // Removed from the new scene
-                    supernovas.splice(i, 1);
-                }
-            }
-        }
-
-        animate();
-
-        window.addEventListener('resize', () => {
-            camera2.aspect = window.innerWidth / window.innerHeight; // Changed camera
-            camera2.updateProjectionMatrix(); // Changed camera
-            renderer2.setSize(window.innerWidth, window.innerHeight); // Changed renderer
-        });
-
-        // Smooth scroll for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const section = document.querySelector(this.getAttribute('href'));
-                if (section) {
-                    section.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Enhanced parallax scrolling
-        gsap.to('.hero', {
-            yPercent: 50,
-            ease: "none",
-            scrollTrigger: {
-                trigger: '.hero',
-                start: "top top",
-                end: "bottom top",
-                scrub: true
             }
         });
 
-        gsap.from('.glass-card', {
-            duration: 1.2,
-            y: 100,
-            opacity: 0,
-            rotation: 5,
-            stagger: 0.2,
-            ease: 'elastic.out(1, 0.75)',
-            scrollTrigger: {
-                trigger: '.grid',
-                start: 'top center+=100',
-                toggleActions: 'play none none reverse'
-            }
-        });
-
-        // Parallax effect for each card
-        document.querySelectorAll('.glass-card').forEach(card => {
-            gsap.to(card, {
-                yPercent: -20,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-        });
-
-
+        // Quote Machine
         const quotes = [
             { text: "Music expresses that which cannot be put into words and that which cannot remain silent.", author: "Victor Hugo" },
-            { text: "One good thing about music, when it hits you, you feel no pain.", author: "Bob Marley" },
-            { text: "Music is the universal language of mankind.", author: "Henry Wadsworth Longfellow" },
-            { text: "Where words fail, music speaks.", author: "Hans Christian Andersen" },
             { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
-            { text: "Music is the strongest form of magic.", author: "Marilyn Manson" },
-            { text: "Music produces a kind of pleasure which human nature cannot do without.", author: "Confucius" },
-            { text: "When something is important enough, you do it even if the odds are not in your favor.", author: "Elon Musk" },
-            { text: "Persistence is very important. You should not give up unless you are forced to give up.", author: "Elon Musk" },
-            { text: "I rather be optimistic and wrong than pessimistic and right.", author: "Elon Musk" },
-            { text: "Sometimes life hits you in the head with a brick. Don't lose faith.", author: "Steve Jobs" },
-            { text: "Stay hungry, stay foolish.", author: "Steve Jobs" },
-            { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
-            { text: "Wherever you go, go with all your heart.", author: "Confucius" },
-            { text: "Real knowledge is to know the extent of one's ignorance.", author: "Confucius" },
-            { text: "The bamboo that bends is stronger than the oak that resists.", author: "Japanese Proverb" },
-            { text: "Failure is an option here. If things are not failing, you are not innovating enough.", author: "Elon Musk" },
-            { text: "I think it is possible for ordinary people to choose to be extraordinary.", author: "Elon Musk" },
-            { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
-            { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
-            { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
-            { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
-            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
-            { text: "Success is not final, failure is not fatal: It is the courage to continue that counts.", author: "Winston Churchill" }
-
+            { text: "Music is the universal language of mankind.", author: "Henry Wadsworth Longfellow" },
+            // Add more quotes as needed
         ];
 
         function getNewQuote() {
@@ -816,44 +830,16 @@
                 ).join('')}</div>
                 <div class="quote-author">- ${randomQuote.author}</div>
             `;
-            quoteTexts.forEach(quoteText => {
-                quoteText.innerHTML = quoteContent;
-            });
+            quoteTexts.forEach(quoteText => quoteText.innerHTML = quoteContent);
         }
 
-        // Initialize with random quotes for both landing and main page
-        function initializeQuotes() {
+        document.addEventListener('DOMContentLoaded', () => {
             const quoteContainers = document.querySelectorAll('.quote-text');
-            quoteContainers.forEach(() => {
-                const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-                const quoteContent = `
-                    <div class="quote-content">${randomQuote.text.split('').map(char => 
-                        char === ' ' ? ' ' : `<span>${char}</span>`
-                    ).join('')}</div>
-                    <div class="quote-author">- ${randomQuote.author}</div>
-                `;
-                quoteContainers.forEach(container => {
-                    container.innerHTML = quoteContent;
-                });
+            quoteContainers.forEach(() => getNewQuote());
+            quoteContainers.forEach(container => {
+                container.parentElement.addEventListener('click', getNewQuote);
             });
-        }
-
-        document.addEventListener('DOMContentLoaded', initializeQuotes);
-
-        // Reinitialize quotes when landing page is clicked
-        document.getElementById('landing-page').addEventListener('click', () => {
-            setTimeout(initializeQuotes, 100);
         });
-    </script>
-<script src="script.js"></script>
-    </footer>
-
-    <script src="script.js"></script>
-    <script>
-        function scroll(elementId, amount) {
-            const container = document.getElementById(elementId);
-            container.scrollBy({ left: amount, behavior: 'smooth' });
-        }
     </script>
 </body>
 </html>
