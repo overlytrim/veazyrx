@@ -241,22 +241,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Search functionality
-    const searchInput = document.getElementById('reviewSearch');
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const cards = document.querySelectorAll('.glass-card');
-            
-            cards.forEach(card => {
-                const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
-                const shouldShow = title.includes(searchTerm);
-                card.style.display = shouldShow ? 'inline-flex' : 'none';
-                card.style.opacity = shouldShow ? '1' : '0';
-            });
-        });
-    }
-
     // Supernova on click
     const universeCanvas = document.getElementById('universe');
     if (universeCanvas) {
