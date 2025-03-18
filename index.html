@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Enhanced styles for a Spotify-inspired look */
+        /* Enhanced styles with adjustments */
         :root {
             --primary: #00f7ff;
             --secondary: #ff00f7;
@@ -27,25 +27,37 @@
             margin: 0;
             background: var(--dark);
             font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
         }
 
-        /* Sidebar (Spotify-inspired) */
+        /* Sidebar (Compact and Adjusted) */
         .sidebar {
-            width: 240px;
+            width: 60px;
             background: rgba(0, 0, 0, 0.9);
-            padding: 2rem 1rem;
+            padding: 1rem 0;
             position: fixed;
             top: 0;
             bottom: 0;
             left: 0;
             z-index: 1000;
             border-right: 1px solid rgba(255, 255, 255, 0.1);
+            transition: width 0.3s ease;
+        }
+
+        .sidebar:hover {
+            width: 200px;
         }
 
         .sidebar-logo {
             display: flex;
             align-items: center;
+            justify-content: center;
             margin-bottom: 2rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar:hover .sidebar-logo {
+            opacity: 1;
         }
 
         .sidebar-logo .musicrx-logo {
@@ -53,11 +65,17 @@
             color: var(--primary);
             font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar:hover .musicrx-logo {
+            opacity: 1;
         }
 
         .sidebar-logo .logo-symbol {
-            margin-left: 0.5rem;
             color: var(--primary);
+            font-size: 1.2rem;
         }
 
         .sidebar-nav ul {
@@ -67,22 +85,37 @@
         }
 
         .sidebar-nav ul li {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
 
         .sidebar-nav ul li a {
             color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            font-size: 1rem;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
+            justify-content: center;
             padding: 0.5rem;
             border-radius: 5px;
             transition: all 0.3s ease;
+            flex-direction: column;
         }
 
         .sidebar-nav ul li a i {
-            margin-right: 0.5rem;
+            margin-bottom: 0.3rem;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-nav ul li a span {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar:hover .sidebar-nav ul li a span {
+            display: inline;
+            opacity: 1;
         }
 
         .sidebar-nav ul li a:hover {
@@ -93,20 +126,43 @@
 
         .sidebar-actions {
             margin-top: 2rem;
+            text-align: center;
         }
 
         .sidebar-actions button {
             background: var(--glass);
             border: 1px solid var(--primary);
             color: var(--primary);
-            padding: 0.5rem 1rem;
+            padding: 0.5rem;
             border-radius: 5px;
             font-family: 'Syncopate', sans-serif;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.3s ease;
+            width: 40px;
+            margin: 0 auto 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sidebar:hover .sidebar-actions button {
             width: 100%;
-            margin-bottom: 1rem;
+        }
+
+        .sidebar-actions button i {
+            margin: 0;
+        }
+
+        .sidebar-actions button span {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar:hover .sidebar-actions button span {
+            display: inline;
+            opacity: 1;
         }
 
         .sidebar-actions button:hover {
@@ -117,10 +173,16 @@
 
         /* Main Content */
         .main-content {
-            margin-left: 240px;
-            width: calc(100% - 240px);
+            margin-left: 60px;
+            width: calc(100% - 60px);
             padding: 2rem;
             overflow-y: auto;
+            transition: margin-left 0.3s ease;
+        }
+
+        .sidebar:hover ~ .main-content {
+            margin-left: 200px;
+            width: calc(100% - 200px);
         }
 
         /* Hero Section */
@@ -322,7 +384,7 @@
             margin: 0;
         }
 
-        /* Share Buttons on Hover */
+        /* Share Buttons on Hover (Round) */
         .share-buttons {
             position: absolute;
             top: 10px;
@@ -341,10 +403,15 @@
             background: var(--glass);
             border: 1px solid var(--primary);
             color: var(--primary);
-            padding: 0.5rem;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             transition: all 0.3s ease;
             box-shadow: 0 0 10px rgba(0, 247, 255, 0.2);
+            text-decoration: none;
         }
 
         .share-buttons a:hover {
@@ -509,32 +576,9 @@
         }
 
         /* Responsive Adjustments */
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 200px;
-            }
-
-            .main-content {
-                margin-left: 200px;
-                width: calc(100% - 200px);
-            }
-        }
-
         @media (max-width: 768px) {
             .sidebar {
                 width: 60px;
-                padding: 1rem;
-            }
-
-            .sidebar-logo .musicrx-logo,
-            .sidebar-nav ul li a span,
-            .sidebar-actions button span {
-                display: none;
-            }
-
-            .sidebar-nav ul li a i,
-            .sidebar-actions button i {
-                margin: 0;
             }
 
             .main-content {
@@ -597,7 +641,7 @@
     <div id="cursor-blur"></div>
     <canvas id="universe"></canvas>
 
-    <!-- Sidebar (Spotify-inspired) -->
+    <!-- Sidebar (Compact and Hover-Expandable) -->
     <div class="sidebar">
         <div class="sidebar-logo">
             <div class="musicrx-logo">MusicRx</div>
@@ -656,6 +700,12 @@
                         <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
                             <i class="fab fa-facebook-f"></i>
                         </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out I Am Music by Playboi Carti on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="scroll-item glass-card">
@@ -668,6 +718,12 @@
                         </a>
                         <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
                             <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out Evil Jordan by Playboi Carti on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
                         </a>
                     </div>
                 </div>
@@ -682,6 +738,12 @@
                         <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
                             <i class="fab fa-facebook-f"></i>
                         </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out The Giver by Chappell Roan on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="scroll-item glass-card">
@@ -694,6 +756,12 @@
                         </a>
                         <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
                             <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out Dark Thoughts by Lil Tecca on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
                         </a>
                     </div>
                 </div>
@@ -721,6 +789,12 @@
                         <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
                             <i class="fab fa-facebook-f"></i>
                         </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out the review of The Slim Shady LP on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
                     </div>
                 </a>
                 <a href="review-gkmc.html" class="scroll-item glass-card">
@@ -733,6 +807,12 @@
                         </a>
                         <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
                             <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out the review of good kid, m.A.A.d city on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
                         </a>
                     </div>
                 </a>
@@ -747,6 +827,12 @@
                         <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
                             <i class="fab fa-facebook-f"></i>
                         </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out the review of Nothing Was The Same on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
                     </div>
                 </a>
                 <a href="review-mbdtf.html" class="scroll-item glass-card">
@@ -759,6 +845,12 @@
                         </a>
                         <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
                             <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out the review of MBDTF on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
                         </a>
                     </div>
                 </a>
@@ -774,22 +866,92 @@
                 <a href="features-kendrick.html" class="artist-card">
                     <img src="kdot.jpeg" alt="Kendrick Lamar">
                     <p>Kendrick Lamar</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out Kendrick Lamar on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out Kendrick Lamar on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
                 </a>
                 <a href="features-drake.html" class="artist-card">
                     <img src="ap-drake2.jpeg" alt="Drake">
                     <p>Drake</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out Drake on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out Drake on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
                 </a>
                 <a href="features-travis.html" class="artist-card">
                     <img src="flame.jpeg" alt="Travis Scott">
                     <p>Travis Scott</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out Travis Scott on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out Travis Scott on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
                 </a>
                 <a href="features-carti.html" class="artist-card">
                     <img src="carti.jpg" alt="Playboi Carti">
                     <p>Playboi Carti</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out Playboi Carti on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out Playboi Carti on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
                 </a>
                 <a href="features-ye.html" class="artist-card">
                     <img src="yeee.jpeg" alt="Ye">
                     <p>Ye</p>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?url=https://musicrx.com&text=Check out Ye on MusicRx!" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Check out Ye on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
                 </a>
             </div>
         </section>
@@ -815,6 +977,12 @@
                         <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
                             <i class="fab fa-facebook-f"></i>
                         </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Playboi Carti Drops I Am Music - Read more on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
                     </div>
                 </a>
                 <a href="news.html" class="scroll-item glass-card">
@@ -828,6 +996,12 @@
                         <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
                             <i class="fab fa-facebook-f"></i>
                         </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Cole x Kendrick Album? Read more on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
+                        </a>
                     </div>
                 </a>
                 <a href="news.html" class="scroll-item glass-card">
@@ -840,6 +1014,12 @@
                         </a>
                         <a href="https://www.facebook.com/sharer/sharer.php?u=https://musicrx.com" target="_blank">
                             <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="sms:?body=Travis Scott Announces Album - Read more on MusicRx! https://musicrx.com" target="_blank">
+                            <i class="fas fa-comment"></i>
                         </a>
                     </div>
                 </a>
@@ -933,10 +1113,10 @@
                     coin.style.right = '20px';
                     coin.style.width = '20px';
                     coin.style.height = '20px';
-                    coin.style.borderRadius = '50%';
+                    coin.style.border-radius = '50%';
                     coin.style.background = 'linear-gradient(45deg, #FFD700, #FFA500)';
-                    coin.style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.7)';
-                    coin.style.zIndex = '1000';
+                    coin.style.box-shadow = '0 0 10px rgba(255, 215, 0, 0.7)';
+                    coin.style.z-index = '1000';
                     coin.style.transition = 'all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
                     document.body.appendChild(coin);
 
@@ -960,7 +1140,7 @@
                 quoteContainer.addEventListener('click', () => {
                     const prompt = quoteContainer.querySelector('.quote-prompt');
                     if (prompt) prompt.style.display = 'none';
-                });
+                }, { once: true });
             }
         });
 
