@@ -21,7 +21,7 @@ function initThreeJS() {
 
 initThreeJS();
 
-// Initialize geometry (Starfield)
+// Initialize geometry
 const geometry = new THREE.BufferGeometry();
 const vertices = [];
 const colors = [];
@@ -180,7 +180,7 @@ function updateSupernovas() {
         supernova.age++;
 
         if (supernova.age >= supernova.maxAge) {
-            scene.remove(supernova.points);
+            scene.remove(supnova.points);
             supernovas.splice(i, 1);
         }
     }
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Search functionality across all sections
+    // Search functionality
     const searchInput = document.getElementById('reviewSearch');
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -390,7 +390,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// GSAP animations (hero only)
+// GSAP animations
 gsap.registerPlugin(ScrollTrigger);
 gsap.to('.hero', {
     yPercent: 50,
