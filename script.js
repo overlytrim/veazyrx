@@ -21,7 +21,7 @@ function initThreeJS() {
 
 initThreeJS();
 
-// Initialize geometry
+// Initialize geometry (Starfield)
 const geometry = new THREE.BufferGeometry();
 const vertices = [];
 const colors = [];
@@ -215,8 +215,32 @@ function animate() {
 // Initialize
 animate();
 
+// Scrolling function
+function scroll(elementId, amount) {
+    const container = document.getElementById(elementId);
+    if (container) {
+        const scrollAmount = amount > 0 ? 
+            Math.min(amount, container.scrollWidth - container.clientWidth - container.scrollLeft) : 
+            Math.max(amount, -container.scrollLeft);
+
+        container.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
+    }
+}
+
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
+    // Mobile Navbar Toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    }
+
     // Search functionality
     const searchInput = document.getElementById('reviewSearch');
     if (searchInput) {
@@ -225,13 +249,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.glass-card');
             
             cards.forEach(card => {
-                const artistName = card.querySelector('h2')?.textContent.toLowerCase() || '';
-                const shouldShow = artistName.includes(searchTerm);
-                card.style.display = shouldShow ? 'flex' : 'none';
+                const title = card.querySelector('h2')?.textContent.toLowerCase() || '';
+                const shouldShow = title.includes(searchTerm);
+                card.style.display = shouldShow ? 'inline-flex' : 'none';
                 card.style.opacity = shouldShow ? '1' : '0';
             });
         });
     }
+
+    // Supernova on click
     const universeCanvas = document.getElementById('universe');
     if (universeCanvas) {
         universeCanvas.addEventListener('click', (event) => {
@@ -248,13 +274,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Handle music toggle
+    // Music toggle
     const bgMusic = document.getElementById('bgMusic');
     const musicToggle = document.getElementById('musicToggle');
-
     if (bgMusic && musicToggle) {
         bgMusic.volume = 0.5;
-
         musicToggle.addEventListener('click', async () => {
             try {
                 if (bgMusic.paused) {
@@ -270,9 +294,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Cursor effects
     const cursor = document.getElementById('cursor');
     const cursorBlur = document.getElementById('cursor-blur');
-
     if (cursor && cursorBlur) {
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
@@ -282,55 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Landing page handler
-    const landingPage = document.getElementById('landing-page');
-    if (landingPage) {
-        landingPage.addEventListener('click', () => {
-            landingPage.classList.add('fade-out');
-            setTimeout(() => {
-                initializeQuotes();
-            }, 100);
-        });
-    }
-
-    // Initialize preloader
-    const preloader = document.getElementById('preloader');
-    let width = 0;
-    const interval = setInterval(() => {
-        width += 2;
-        const progressBar = document.getElementById('progress-bar');
-        if (progressBar) {
-            progressBar.style.width = width + '%';
-        }
-        if (width >= 100) {
-            clearInterval(interval);
-            if (preloader) {
-                preloader.style.opacity = '0';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                }, 500);
-            }
-        }
-    }, 20);
-
-
-    // Initialize content display
-    document.querySelectorAll('.content-details').forEach(content => {
-        // Set initial style to avoid flicker
-        content.style.opacity = '0';
-        content.style.display = 'none';
-    });
-
-    // Make sure trending content is properly styled
-    const trendingContent = document.getElementById('content-trending');
-    if (trendingContent) {
-        trendingContent.style.display = 'flex';
-        trendingContent.style.flexDirection = 'column';
-        trendingContent.style.width = '100%';
-        trendingContent.style.opacity = '1'; // Set to visible since we're placing it below News
-    }
-
-    // Add hover sound effects with error handling
+    // Hover sound effects
     function playRandomSound() {
         try {
             const sounds = [
@@ -338,10 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('hover-sound-2'),
                 document.getElementById('hover-sound-3')
             ];
-
-            // Filter out null elements
             const validSounds = sounds.filter(sound => sound !== null);
-
             if (validSounds.length > 0) {
                 const sound = validSounds[Math.floor(Math.random() * validSounds.length)];
                 if (sound && typeof sound.play === 'function') {
@@ -352,7 +325,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (err) {
             console.log("Audio system error:", err);
-            // Silently fail if audio can't be played
         }
     }
 
@@ -361,6 +333,42 @@ document.addEventListener('DOMContentLoaded', () => {
             playRandomSound();
         });
     });
+
+    // Flat card enforcement
+    function enforceFlatCards() {
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.style.cssText += `
+                transform: none !important;
+                perspective: none !important;
+                transform-style: flat !important;
+                rotate: 0deg !important;
+                transition: box-shadow 0.3s ease, opacity 0.3s ease !important;
+                transform-origin: center center !important;
+            `;
+            card.querySelectorAll('*').forEach(child => {
+                child.style.cssText += `
+                    transform: none !important;
+                    perspective: none !important;
+                    transform-style: flat !important;
+                `;
+            });
+        });
+    }
+
+    enforceFlatCards();
+    window.addEventListener('scroll', enforceFlatCards);
+
+    // Glass card setup
+    function setupAllGlassCards() {
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.style.overflow = 'hidden';
+            card.style.position = 'relative';
+            card.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        });
+    }
+
+    setupAllGlassCards();
+    window.addEventListener('resize', setupAllGlassCards);
 });
 
 window.addEventListener('resize', () => {
@@ -369,116 +377,7 @@ window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-
-// Quotes system
-const quotes = [
-            { text: "One good thing about music, when it hits you, you feel no pain.", author: "Bob Marley" },
-            { text: "Music is the universal language of mankind.", author: "Henry Wadsworth Longfellow" },
-            { text: "Where words fail, music speaks.", author: "Hans Christian Andersen" },
-            { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
-            { text: "Music is the strongest form of magic.", author: "Marilyn Manson" },
-            { text: "Music produces a kind of pleasure which human nature cannot do without.", author: "Confucius" },
-            { text: "When something is important enough, you do it even if the odds are not in your favor.", author: "Elon Musk" },
-            { text: "Persistence is very important. You should not give up unless you are forced to give up.", author: "Elon Musk" },
-            { text: "I rather be optimistic and wrong than pessimistic and right.", author: "Elon Musk" },
-            { text: "Sometimes life hits you in the head with a brick. Don't lose faith.", author: "Steve Jobs" },
-            { text: "Stay hungry, stay foolish.", author: "Steve Jobs" },
-            { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
-            { text: "Wherever you go, go with all your heart.", author: "Confucius" },
-            { text: "Real knowledge is to know the extent of one's ignorance.", author: "Confucius" },
-            { text: "The bamboo that bends is stronger than the oak that resists.", author: "Japanese Proverb" },
-            { text: "Failure is an option here. If things are not failing, you are not innovating enough.", author: "Elon Musk" },
-            { text: "I think it is possible for ordinary people to choose to be extraordinary.", author: "Elon Musk" },
-            { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
-            { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
-            { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
-            { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
-            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
-            { text: "Success is not final, failure is not fatal: It is the courage to continue that counts.", author: "Winston Churchill" }
-];
-
-function getNewQuote() {
-    const quoteTexts = document.querySelectorAll('.quote-text');
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    const quoteContent = `
-        <div class="quote-content">${randomQuote.text.split('').map(char => 
-            char === ' ' ? ' ' : `<span>${char}</span>`
-        ).join('')}</div>
-        <div class="quote-author">- ${randomQuote.author}</div>
-    `;
-    quoteTexts.forEach(quoteText => {
-        quoteText.innerHTML = quoteContent;
-    });
-}
-
-function initializeQuotes() {
-    const quoteTexts = document.querySelectorAll('.quote-text');
-    if (quoteTexts.length > 0) {
-        getNewQuote();
-    }
-}
-
-// Show content function
-function showContent(contentType) {
-    const allContents = document.querySelectorAll('.content-details');
-    allContents.forEach(content => {
-        content.style.opacity = '0';
-        setTimeout(() => {
-            content.style.display = 'none';
-        }, 300);
-    });
-
-    const selectedContent = document.getElementById(`content-${contentType}`);
-    if (selectedContent) {
-        // Special handling for trending content
-        if (contentType === 'trending') {
-            selectedContent.style.display = 'flex';
-            selectedContent.style.flexDirection = 'column';
-            selectedContent.style.width = '100%';
-            selectedContent.style.maxWidth = '100%';
-            selectedContent.style.margin = '2rem 0';
-        } else {
-            selectedContent.style.display = 'block';
-        }
-
-        selectedContent.offsetHeight; // Force reflow
-        selectedContent.style.opacity = '1';
-        selectedContent.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }
-}
-
-// Disable 3D tilt effect for all cards
-document.querySelectorAll('.glass-card').forEach(card => {
-    // Apply inline styles to ensure flat cards
-    card.style.transform = 'none !important';
-    card.style.perspective = 'none !important';
-    card.style.transformStyle = 'flat !important';
-    card.style.transition = 'box-shadow 0.3s ease, opacity 0.3s ease !important';
-    card.style.rotate = '0deg !important';
-
-    // Remove any listeners that might be causing transforms
-    const newCard = card.cloneNode(true);
-    card.parentNode.replaceChild(newCard, card);
-
-    // Add only hover effect for box shadow
-    newCard.addEventListener('mouseenter', () => {
-        newCard.style.boxShadow = '0 0 20px rgba(0, 247, 255, 0.3)';
-    });
-
-    newCard.addEventListener('mouseleave', () => {
-        newCard.style.boxShadow = '0 8px 32px rgba(0, 247, 255, 0.1)';
-    });
-});
-
-// Reinitialize quotes when landing page is clicked
-document.getElementById('landing-page').addEventListener('click', () => {
-    setTimeout(initializeQuotes, 100);
-});
-
-// Smooth scroll
+// Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -491,9 +390,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// GSAP animations - only keep hero animation, disable all card animations
+// GSAP animations (hero only)
 gsap.registerPlugin(ScrollTrigger);
-
 gsap.to('.hero', {
     yPercent: 50,
     ease: "none",
@@ -504,110 +402,3 @@ gsap.to('.hero', {
         scrub: true
     }
 });
-
-// Completely remove parallax effects for cards
-document.querySelectorAll('.glass-card').forEach(card => {
-    gsap.killTweensOf(card); // Kill any GSAP animations on cards
-
-    // Reset to flat style
-    card.style.transform = 'none !important';
-    card.style.transformStyle = 'flat !important';
-    card.style.perspective = 'none !important';
-    card.style.transition = 'box-shadow 0.3s ease, opacity 0.3s ease !important';
-});
-
-// Completely remove mouse movement effects on cards
-document.addEventListener('mousemove', (e) => {
-    const cards = document.querySelectorAll('.glass-card');
-    cards.forEach(card => {
-        card.style.transform = 'none';
-    });
-});
-
-// Replace with flat animation with no rotation
-gsap.from('.glass-card', {
-    duration: 1.2,
-    y: 100,
-    opacity: 0,
-    rotation: 0, // Removed rotation
-    stagger: 0.2,
-    ease: 'power2.out', // Changed from elastic to prevent any bouncing
-    scrollTrigger: {
-        trigger: '.grid',
-        start: 'top center+=100',
-        toggleActions: 'play none none reverse'
-    }
-});
-
-
-// Function to enforce flat cards throughout the page
-function enforceFlatCards() {
-    document.querySelectorAll('.glass-card').forEach(card => {
-        // Apply inline styles to override any external animations
-        card.style.cssText += `
-            transform: none !important;
-            perspective: none !important;
-            transform-style: flat !important;
-            rotate: 0deg !important;
-            transition: box-shadow 0.3s ease, opacity 0.3s ease !important;
-            transform-origin: center center !important;
-        `;
-
-        // Apply to all children as well
-        card.querySelectorAll('*').forEach(child => {
-            child.style.cssText += `
-                transform: none !important;
-                perspective: none !important;
-                transform-style: flat !important;
-            `;
-        });
-    });
-}
-
-// Run on load
-document.addEventListener('DOMContentLoaded', enforceFlatCards);
-
-// Run on scroll to continuously enforce flat cards
-window.addEventListener('scroll', enforceFlatCards);
-
-// Apply a single event handler to manage all glass cards
-function setupAllGlassCards() {
-    document.querySelectorAll('.glass-card').forEach(card => {
-        // Ensure cards have the overflow:hidden style to contain mirror effect
-        card.style.overflow = 'hidden';
-
-        // Remove any previous style overrides that might block effects
-        card.style.removeProperty('transform-style');
-        card.style.removeProperty('perspective');
-
-        // Preserve position and transition for effects
-        card.style.position = 'relative';
-        card.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-
-        // Add hover effect listeners
-        card.addEventListener('mouseenter', () => {
-            card.style.boxShadow = '0 0 20px rgba(0, 247, 255, 0.3)';
-            card.style.filter = 'brightness(1.1)';
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.boxShadow = '0 8px 32px rgba(0, 247, 255, 0.1)';
-            card.style.filter = 'brightness(1)';
-        });
-    });
-}
-
-// Run the setup initially
-document.addEventListener('DOMContentLoaded', setupAllGlassCards);
-window.addEventListener('resize', setupAllGlassCards);
-
-// Don't prevent all mousemove effects, but ensure cards have proper overflow hidden
-document.addEventListener('mousemove', (e) => {
-    document.querySelectorAll('.glass-card').forEach(card => {
-        if (card.style.overflow !== 'hidden') {
-            card.style.overflow = 'hidden';
-        }
-    });
-});
-
-document.addEventListener('DOMContentLoaded', initializeQuotes);
