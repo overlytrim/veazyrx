@@ -13,43 +13,16 @@
     <div id="cursor-blur"></div>
     <canvas id="universe"></canvas>
 
-    <!-- Desktop Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-logo">
-            <div class="musicrx-logo">MusicRx</div>
-            <div class="logo-symbol">
-                <i class="fas fa-heartbeat"></i>
-            </div>
-        </div>
-        <nav class="sidebar-nav">
-            <ul>
-                <li><a href="index.html"><i class="fas fa-home"></i> <span>Home</span></a></li>
-                <li><a href="reviews.html"><i class="fas fa-star"></i> <span>Reviews</span></a></li>
-                <li><a href="features.html"><i class="fas fa-user"></i> <span>Features</span></a></li>
-                <li><a href="news.html"><i class="fas fa-newspaper"></i> <span>News</span></a></li>
-                <li><a href="opinions.html"><i class="fas fa-comment"></i> <span>Opinions</span></a></li>
-                <li><a href="catchcarti.html"><i class="fas fa-compact-disc"></i> <span>Catch Carti</span></a></li>
-                <li><a href="shop.html"><i class="fas fa-shopping-cart"></i> <span>Shop</span></a></li>
-                <li><a href="about.html"><i class="fas fa-info-circle"></i> <span>About</span></a></li>
-                <li><a href="contact.html"><i class="fas fa-envelope"></i> <span>Contact</span></a></li>
-            </ul>
-        </nav>
-        <div class="sidebar-actions">
-            <button><i class="fas fa-plus"></i> <span>Create Playlist</span></button>
-            <button><i class="fas fa-podcast"></i> <span>Find Podcasts</span></button>
-        </div>
-    </div>
-
-    <!-- Mobile Navbar -->
-    <nav>
+    <!-- Navbar for Desktop and Mobile -->
+    <nav class="navbar">
         <div class="nav-logo">
             <span class="musicrx-logo">MusicRx</span>
             <span class="logo-symbol"><i class="fas fa-heartbeat"></i></span>
         </div>
         <div class="hamburger"><i class="fas fa-bars"></i></div>
         <ul class="nav-links">
-            <li class="search-container">
-                <input type="text" id="reviewSearch" placeholder="Search reviews..." class="search-input">
+            <li class="search-container desktop-only">
+                <input type="text" id="reviewSearch" placeholder="Search..." class="search-input">
             </li>
             <li><a href="index.html" class="nav-link">Home</a></li>
             <li><a href="reviews.html" class="nav-link">Reviews</a></li>
