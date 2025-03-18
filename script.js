@@ -180,7 +180,7 @@ function updateSupernovas() {
         supernova.age++;
 
         if (supernova.age >= supernova.maxAge) {
-            scene.remove(supnova.points);
+            scene.remove(supernova.points);
             supernovas.splice(i, 1);
         }
     }
@@ -232,7 +232,7 @@ function scroll(elementId, amount) {
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-    // Mobile Navbar Toggle
+    // Navbar Toggle
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     if (hamburger && navLinks) {
